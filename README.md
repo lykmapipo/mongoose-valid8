@@ -16,16 +16,103 @@ mongoose.plugin(require('mongoose-valid8'));
 ...
 
 //define you schema using validator
-var UserSchema = new Schema({
+var PersonSchema = new Schema({
     email:{
             type:String,
             isEmail:true
+        },
+    registeredAt:{
+            type:Date,
+            isDate:{
+                    message:'Registered at must be a valid date'
+                    //other options
+                }
         }
 });
+var Person = mongoose.model('User',UserSchema);
+
+//validate
+new Person({email:'invalidemail'})
+    .validate(function(error){
+        //errors
+        ... 
+    });
+
+//or save
+new Person({email:'invalidemail'})
+    .save(function(error){
+        //errors
+        ... 
+    });
 
 ...
 
 ```
+
+## How to Define Validation
+`mongoose-valid8` utilizes all defined [validator js validations methods](https://github.com/chriso/validator.js#validators) and bind them to schema fields for validations.
+
+Validations are defined by following format:
+```javascript
+validator:Boolean || Object
+```
+
+- When validation defined in the format
+```javascript
+var PersonSchema = new Schema({
+    email:{
+            type:String,
+            isEmail:true
+    }
+});
+```
+Error message will be default to `mongoose default errors`.
+
+
+- When validation defined in the format
+```javascript
+var PersonSchema = new Schema({
+    email:{
+            type:String,
+            isEmail:{
+                message:'Email must be a valid email address',
+                options:{//other validator js isEmail options}
+            }
+    }
+});
+```
+Error message will be `custom supplied message` and gives ability to pass additional `validator options`.
+
+`options` added follows `validator js` validators definitions, thus if a validator accept primitives arguments, they can be defined inline with message and if it accepts plain object it must be defined using key `options`.
+
+- Example of validator accept a primitive argument [isLength(str, min [, max])](https://github.com/chriso/validator.js#validators)
+```javascript
+var PersonSchema = new Schema({
+    password:{
+            type:String,
+            isLength:{
+                message:'Password must have more than 8 characters',
+                min:8
+            }
+    }
+});
+```
+
+- Example of validator accept a plain object options [isEmail(str [, options])](https://github.com/chriso/validator.js#validators)
+```javascript
+var PersonSchema = new Schema({
+    email:{
+            type:String,
+            isEmail:{
+                message:'Email must be a valid email address',
+                options:{
+                        allow_utf8_local_part: false
+                    }
+            }
+    }
+});
+```
+
 
 
 ## Testing

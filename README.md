@@ -10,8 +10,10 @@ Additional mongoose schema validations based on [validator.js](https://github.co
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
-//apply mongoose-valid8 to mongoose
+//apply mongoose-valid8 plugin to mongoose
 mongoose.plugin(require('mongoose-valid8'));
+
+...
 
 //define you schema using validator
 var UserSchema = new Schema({

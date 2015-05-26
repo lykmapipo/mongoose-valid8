@@ -1,0 +1,60 @@
+{
+    "name": "mongoose-valid8",
+    "version": "0.1.0",
+    "description": "Additional mongoose schema validations based on validator.js",
+    "keywords": [
+        "mongoose",
+        "mongoose-plugin",
+        "validate",
+        "checkit",
+        "validator",
+        "test",
+        "ensure",
+        "valid8",
+        "valid",
+        "validr",
+        "validation"
+    ],
+    "main": "index.js",
+    "scripts": {
+        "test": "grunt test"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/lykmapipo/mongoose-valid8.git"
+    },
+    "author": {
+        "name": "lykmapipo",
+        "email": "lallyelias87@gmail.com",
+        "url": "https://github.com/lykmapipo"
+    },
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/lykmapipo/mongoose-valid8/issues"
+    },
+    "homepage": "https://github.com/lykmapipo/mongoose-valid8",
+    "contributors": [{
+        "name": "lykmapipo",
+        "github": "https://github.com/lykmapipo"
+    }],
+    "devDependencies": {
+        "async": "^1.0.0",
+        "chai": "^2.2.0",
+        "faker": "^2.1.2",
+        "grunt": "^0.4.5",
+        "grunt-contrib-jshint": "^0.11.2",
+        "grunt-contrib-watch": "^0.6.1",
+        "grunt-mocha-test": "^0.12.7",
+        "jshint-stylish": "^1.0.1",
+        "lodash": "^3.9.2",
+        "mocha": "^2.2.4",
+        "mongoose": "^4.0.3"
+    },
+    "peerDependencies": {
+        "lodash": "^3.9.2"
+    },
+    "dependencies": {
+        "validator": "^3.40.0",
+        "mongoose": "^4.0.3"
+    }
+}

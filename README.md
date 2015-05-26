@@ -11,8 +11,7 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 //apply mongoose-valid8 to mongoose
-var valid8 = require('mongoose-valid8');
-mongoose.plugin(valid8);
+mongoose.plugin(require('mongoose-valid8'));
 
 //define you schema using validator
 var UserSchema = new Schema({

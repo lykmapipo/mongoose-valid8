@@ -62,7 +62,7 @@ validator:Boolean || Object
 var PersonSchema = new Schema({
     email:{
             type:String,
-            isEmail:true
+            isEmail:true //validator:Boolean
     }
 });
 ```
@@ -74,7 +74,7 @@ Error message will be default to `mongoose default errors`.
 var PersonSchema = new Schema({
     email:{
             type:String,
-            isEmail:{
+            isEmail:{ //validator:Object
                 message:'Email must be a valid email address',
                 options:{//other validator js isEmail options}
             }
@@ -83,7 +83,7 @@ var PersonSchema = new Schema({
 ```
 Error message will be `custom supplied message` and gives ability to pass additional `validator options`.
 
-`options` added follows `validator js` validators definitions, thus if a validator accept primitives arguments, they can be defined inline with message and if it accepts plain object it must be defined using key `options`.
+`options` added follows `validator js` validator definition, thus if a validator accept primitives argument, they can be defined inline with message and if it accepts plain object it must be defined using key `options`.
 
 - Example of validator accept a primitive argument [isLength(str, min [, max])](https://github.com/chriso/validator.js#validators)
 ```javascript

@@ -4,116 +4,76 @@
 
 Additional mongoose schema validations based on [validator.js](https://github.com/chriso/validator.js)
 
+*Note!: v1.0.0 drops support for all validators and only specific validators are available*
+
+## Requirements
+
+- [NodeJS v8.11.1+](https://nodejs.org)
+- [Npm v5.6.0+](https://www.npmjs.com/)
+- [MongoDB v3.4.10+](https://www.mongodb.com/)
+- [Mongoose v5.1.2+](https://github.com/Automattic/mongoose)
+
+## Installation
+
+```sh
+npm install mongoose mongoose-valid8 --save
+```
+
 ## Usage
 
 ```javascript
-var mongoose = require('mongoose');
-var Schema = mongoose.Schema;
+const mongoose = require('mongoose');
+require('mongoose-valid8');
+const Schema = mongoose.Schema;
 
-//apply mongoose-valid8 plugin to mongoose
-mongoose.plugin(require('mongoose-valid8'));
-
-...
 
 //define you schema using validator
-var PersonSchema = new Schema({
-    email:{
-            type:String,
-            isEmail:true
-        },
-    registeredAt:{
-            type:Date,
-            isDate:{
-                    message:'Registered at must be a valid date'
-                    //other options
-                }
-        }
+const PersonSchema = new Schema({
+  email: {
+    type: String,
+    email: true
+  }
 });
-var Person = mongoose.model('User',UserSchema);
+const Person = mongoose.model('User', UserSchema);
+
 
 //validate
-new Person({email:'invalidemail'})
-    .validate(function(error){
-        //errors
-        ... 
-    });
+new Person({ email: 'invalidemail' })
+  .validate(function (error) {
+    //errors
+    ...
+  });
+
 
 //or save
-new Person({email:'invalidemail'})
-    .save(function(error){
-        //errors
-        ... 
-    });
-
-...
+new Person({ email: 'invalidemail' })
+  .save(function (error) {
+    //errors
+    ...
+  });
 
 ```
 
-## How to Define Validation
-`mongoose-valid8` utilizes all defined [validator js validations methods](https://github.com/chriso/validator.js#validators) and bind them to schema fields for validations.
+## Available Validations
 
-Validations are defined by following format:
-```javascript
-validator:Boolean || Object
-```
+## String
+- `email`
+- `macaddres`
+- `ip`
+- `fqdn`
+- `alpha`
+- `alphanumeric`
+- `md5`
+- `uuid`
+- `creditcard`
+- `base64`
+- `mobile`
+- `mimetype`
 
-- When validation defined in the format
-```javascript
-var PersonSchema = new Schema({
-    email:{
-            type:String,
-            isEmail:true //validator:Boolean
-    }
-});
-```
-Error message will be default to `mongoose default errors`.
-
-
-- When validation defined in the format
-```javascript
-var PersonSchema = new Schema({
-    email:{
-            type:String,
-            isEmail:{ //validator:Object
-                message:'Email must be a valid email address',
-                options:{//other validator js isEmail options}
-            }
-    }
-});
-```
-Error message will be `custom supplied message` and gives ability to pass additional `validator options`.
-
-`options` added follows `validator js` validator definition, thus if a validator accept primitives argument, they can be defined inline with message and if it accepts plain object it must be defined using key `options`.
-
-- Example of validator accept a primitive argument [isLength(str, min [, max])](https://github.com/chriso/validator.js#validators)
-```javascript
-var PersonSchema = new Schema({
-    password:{
-            type:String,
-            isLength:{
-                message:'Password must have more than 8 characters',
-                min:8
-            }
-    }
-});
-```
-
-- Example of validator accept a plain object options [isEmail(str [, options])](https://github.com/chriso/validator.js#validators)
-```javascript
-var PersonSchema = new Schema({
-    email:{
-            type:String,
-            isEmail:{
-                message:'Email must be a valid email address',
-                options:{
-                        allow_utf8_local_part: false
-                    }
-            }
-    }
-});
-```
-
-
+## Number
+- `numeric`
+- `integer`
+- `float`
 
 ## Testing
 * Clone this repository
@@ -129,10 +89,6 @@ $ npm test
 
 ## Contribute
 It will be nice, if you open an issue first so that we can know what is going on, then, fork this repo and push in your ideas. Do not forget to add a bit of test(s) of what value you adding.
-
-
-## TODO
-- [ ] Adding custom isUnique validation which allow custom error message
 
 
 ## Licence

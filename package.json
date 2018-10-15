@@ -1,6 +1,6 @@
 {
   "name": "mongoose-valid8",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Additional mongoose schema validations based on validator.js",
   "keywords": [
     "mongoose",
@@ -55,18 +55,22 @@
     }
   ],
   "devDependencies": {
-    "chai": "^4.1.2",
+    "chai": "^4.2.0",
     "faker": "^4.1.0",
     "grunt": "^1.0.3",
-    "grunt-contrib-jshint": "^1.1.0",
+    "grunt-contrib-jshint": "^2.0.0",
     "grunt-contrib-watch": "^1.1.0",
     "grunt-mocha-test": "^0.13.3",
     "jshint-stylish": "^2.2.1",
+    "lodash": "^4.17.11",
     "mocha": "^5.2.0",
-    "mongoose": "^5.2.7"
+    "mongoose": "^5.3.3"
+  },
+  "peerDependencies": {
+    "lodash": "^4.17.11",
+    "mongoose": "^5.3.3"
   },
   "dependencies": {
-    "lodash": "^4.17.10",
-    "validator": "^10.5.0"
+    "validator": "^10.8.0"
   }
 }

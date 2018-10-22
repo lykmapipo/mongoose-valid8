@@ -57,9 +57,8 @@ function test(options) {
   }
 }
 
-//source https://github.com/chriso/validator.js/blob/master/test/validators.js
-//with modifications to make work for mongoose-valid8
-describe('Validators', () => {
+
+describe('String Validators', () => {
   /*jshint camelcase:false*/
   /*jshint -W100 */
 
@@ -221,72 +220,6 @@ describe('Validators', () => {
     });
   });
 
-  it('should validate numeric value', () => {
-    test({
-      type: Number,
-      validator: 'numeric',
-      valid: [
-        123,
-        '123',
-        '00123',
-        '0',
-        '123.123',
-        '+123',
-        '-0',
-        '-00123',
-      ],
-      invalid: [],
-    });
-  });
-
-  it('should validate integers', () => {
-    test({
-      type: Number,
-      validator: 'integer',
-      valid: [
-        '13',
-        '123',
-        '0',
-        '123',
-        '-0',
-        '+1',
-        '01',
-        '-01',
-        '000',
-      ],
-      invalid: [
-        123.123,
-      ],
-    });
-  });
-
-  it('should validate floats', () => {
-    test({
-      type: Number,
-      validator: 'float',
-      valid: [
-        '123',
-        '123.',
-        '123.123',
-        '-123.123',
-        '-0.123',
-        '+0.123',
-        '0.123',
-        '.0',
-        '-.123',
-        '+.123',
-        '01.123',
-        '-0.22250738585072011e-307',
-      ],
-      invalid: [
-        '+',
-        '-',
-        '.',
-        'foo',
-      ],
-    });
-  });
-
   it('should validate md5 strings', () => {
     test({
       type: String,
@@ -401,6 +334,32 @@ describe('Validators', () => {
     });
   });
 
+  it('should validate datauri strings', () => {
+    test({
+      type: String,
+      validator: 'datauri',
+      valid: [
+        'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAiIGhlaWdodD0iMTAwIj48cmVjdCBmaWxsPSIjMDBCMUZGIiB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIvPjwvc3ZnPg==',
+        ' data:,Hello%2C%20World!',
+        ' data:,Hello World!',
+        ' data:text/plain;base64,SGVsbG8sIFdvcmxkIQ%3D%3D',
+        ' data:text/html,%3Ch1%3EHello%2C%20World!%3C%2Fh1%3E',
+        'data:,A%20brief%20note',
+        'data:text/html;charset=US-ASCII,%3Ch1%3EHello!%3C%2Fh1%3E',
+      ],
+      invalid: [
+        'dataxbase64',
+        'data:HelloWorld',
+        'data:text/html;charset=,%3Ch1%3EHello!%3C%2Fh1%3E',
+        'data:text/html;charset,%3Ch1%3EHello!%3C%2Fh1%3E',
+        'data:base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQAQMAAAAlPW0iAAAABlBMVEUAAAD///+l2Z/dAAAAM0lEQVR4nGP4/5/h/1+G/58ZDrAz3D/McH8yw83NDDeNGe4Ug9C9zwz3gVLMDA/A6P9/AFGGFyjOXZtQAAAAAElFTkSuQmCC',
+        '',
+        'http://wikipedia.org',
+        'base64',
+      ],
+    });
+  });
+
   it('should validate mobile phone number', () => {
     test({
       type: String,
@@ -471,4 +430,107 @@ describe('Validators', () => {
     });
   });
 
+  it('should validate url', () => {
+    test({
+      type: String,
+      validator: 'url',
+      valid: [
+        'foobar.com',
+        'www.foobar.com',
+        'foobar.com/',
+        'valid.au',
+        'http://www.foobar.com/',
+        'HTTP://WWW.FOOBAR.COM/',
+        'https://www.foobar.com/',
+        'HTTPS://WWW.FOOBAR.COM/',
+        'http://www.foobar.com:23/',
+        'http://www.foobar.com:65535/',
+        'http://www.foobar.com:5/',
+        'https://www.foobar.com/',
+        'ftp://www.foobar.com/',
+      ],
+      invalid: [
+        '',
+        ' ',
+        'xyz://foobar.com',
+        'invalid/',
+        'invalid.x',
+        'invalid.',
+        '.com',
+        'http://com/',
+      ],
+    });
+  });
+
+});
+
+
+describe('Number Validators', function () {
+  /*jshint camelcase:false*/
+  /*jshint -W100 */
+  it('should validate numeric value', () => {
+    test({
+      type: Number,
+      validator: 'numeric',
+      valid: [
+        123,
+        '123',
+        '00123',
+        '0',
+        '123.123',
+        '+123',
+        '-0',
+        '-00123',
+      ],
+      invalid: [],
+    });
+  });
+
+  it('should validate integers', () => {
+    test({
+      type: Number,
+      validator: 'integer',
+      valid: [
+        '13',
+        '123',
+        '0',
+        '123',
+        '-0',
+        '+1',
+        '01',
+        '-01',
+        '000',
+      ],
+      invalid: [
+        123.123,
+      ],
+    });
+  });
+
+  it('should validate floats', () => {
+    test({
+      type: Number,
+      validator: 'float',
+      valid: [
+        '123',
+        '123.',
+        '123.123',
+        '-123.123',
+        '-0.123',
+        '+0.123',
+        '0.123',
+        '.0',
+        '-.123',
+        '+.123',
+        '01.123',
+        '-0.22250738585072011e-307',
+      ],
+      invalid: [
+        '+',
+        '-',
+        '.',
+        'foo',
+      ],
+    });
+  });
 });

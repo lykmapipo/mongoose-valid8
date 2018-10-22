@@ -67,8 +67,10 @@ new Person({ email: 'invalidemail' })
 - `uuid`
 - `creditcard`
 - `base64`
+- `datauri`
 - `mobile`
 - `mimetype`
+- `url`
 
 ## Number
 - `numeric`

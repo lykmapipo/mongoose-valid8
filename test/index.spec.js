@@ -9,6 +9,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 require(path.join(__dirname, '..', 'index'));
 
+/* TODO refactor per schema type */
 
 /* test runner */
 function test(options) {
@@ -20,7 +21,8 @@ function test(options) {
     }
   };
 
-  fields.content[options.validator] = options.args || true;
+  fields.content[options.validator] =
+    (options.args !== null && options.args !== undefined ? options.args : true);
 
   const modelName = faker.date.past().getTime().toString();
   const UserSchema = new Schema(fields);
@@ -30,10 +32,12 @@ function test(options) {
   //test for valid input
   if (options.valid) {
     options.valid.forEach(function (valid) {
-      new User({
-        content: valid
-      }).validate(function (error) {
+      const user = new User({ content: valid });
+      user.validate(function (error) {
         expect(error).to.not.exist;
+        if (options.assert) {
+          options.assert(user.content);
+        }
       });
     });
   }
@@ -41,9 +45,8 @@ function test(options) {
   //test for invalid input
   if (options.invalid) {
     options.invalid.forEach(function (invalid) {
-      new User({
-        content: invalid
-      }).validate(function (error) {
+      const user = new User({ content: invalid });
+      user.validate(function (error) {
         expect(error).to.exist;
         expect(error.errors).to.exist;
         expect(error.errors.content).to.exist;
@@ -51,7 +54,10 @@ function test(options) {
         expect(error.errors.content.value).to.exist;
         expect([options.type.name, options.validator])
           .to.be.include(error.errors.content.kind);
-        expect(error.errors.content.value).to.be.equal(invalid);
+        expect(error.errors.content.value).to.be.eql(invalid);
+        if (options.assert) {
+          options.assert(user.content);
+        }
       });
     });
   }
@@ -465,9 +471,10 @@ describe('String Validators', () => {
 });
 
 
-describe('Number Validators', function () {
+describe('Number Validators', () => {
   /*jshint camelcase:false*/
   /*jshint -W100 */
+
   it('should validate numeric value', () => {
     test({
       type: Number,
@@ -533,4 +540,180 @@ describe('Number Validators', function () {
       ],
     });
   });
+});
+
+
+describe('Array Validators', () => {
+  /*jshint camelcase:false*/
+  /*jshint -W100 */
+
+  it('should validate empty array', () => {
+    test({
+      type: [String],
+      validator: 'empty',
+      args: false,
+      valid: [
+        ['foo@bar.com']
+      ],
+      invalid: [
+        []
+      ]
+    });
+  });
+
+
+  it('should validate empty array', () => {
+    test({
+      type: [String],
+      validator: 'empty',
+      args: true,
+      valid: [
+        []
+      ]
+    });
+  });
+
+  it('should compact primitive array', () => {
+    test({
+      type: [String],
+      validator: 'compact',
+      valid: [
+        ['a', '', undefined, null, 'b']
+      ],
+      assert: function (val) {
+        expect(val).to.be.eql(['a', 'b']);
+      }
+    });
+  });
+
+  it('should compact ObjectId array', () => {
+    const oid = new mongoose.Types.ObjectId();
+    test({
+      type: [Schema.Types.ObjectId],
+      validator: 'compact',
+      valid: [
+        [oid, '', undefined, null]
+      ],
+      assert: function (val) {
+        expect(val).to.be.eql([oid]);
+      }
+    });
+  });
+
+  it('should remove duplicates on primitive array', () => {
+    test({
+      type: [String],
+      validator: 'duplicate',
+      valid: [
+        ['a', 'a', undefined, null, 'b', 'b']
+      ],
+      assert: function (val) {
+        expect(val).to.be.eql(['a', 'b']);
+      }
+    });
+  });
+
+  it('should remove duplicates on ObjectId', () => {
+    const oid1 = new mongoose.Types.ObjectId();
+    const oid2 = new mongoose.Types.ObjectId();
+    test({
+      type: [Schema.Types.ObjectId],
+      validator: 'duplicate',
+      valid: [
+        [oid1, undefined, null, oid1, oid2, oid2]
+      ],
+      assert: function (val) {
+        expect(val).to.be.eql([oid1, oid2]);
+      }
+    });
+  });
+
+
+  it('should remove duplicates on array by comparator', () => {
+    test({
+      type: [String],
+      validator: 'duplicate',
+      args: (a, b) => a === b,
+      valid: [
+        ['a', 'a', undefined, null, 'b', 'b']
+      ],
+      assert: function (val) {
+        expect(val).to.be.eql(['a', 'b']);
+      }
+    });
+  });
+
+
+  it('should sort primitive array', () => {
+    test({
+      type: [String],
+      validator: 'sort',
+      valid: [
+        ['c', 'a', undefined, null, 'b', 'b']
+      ],
+      assert: function (val) {
+        expect(val).to.be.eql(['a', 'b', 'c']);
+      }
+    });
+  });
+
+  it('should sort primitive array in desc', () => {
+    test({
+      type: [String],
+      validator: 'sort',
+      args: 'desc',
+      valid: [
+        ['c', 'a', undefined, null, 'b', 'b']
+      ],
+      assert: function (val) {
+        expect(val).to.be.eql(['c', 'b', 'a']);
+      }
+    });
+  });
+
+  it('should sort primitive array in asc', () => {
+    test({
+      type: [String],
+      validator: 'sort',
+      args: 'asc',
+      valid: [
+        ['c', 'a', undefined, null, 'b', 'b']
+      ],
+      assert: function (val) {
+        expect(val).to.be.eql(['a', 'b', 'c']);
+      }
+    });
+  });
+
+  it('should sort array of ObjectId', () => {
+    const oid1 = new mongoose.Types.ObjectId();
+    const oid2 = new mongoose.Types.ObjectId();
+    test({
+      type: [Schema.Types.ObjectId],
+      validator: 'sort',
+      valid: [
+        [oid2, undefined, null, oid1, oid2, oid1]
+      ],
+      assert: function (val) {
+        expect(val).to.be.eql([oid1, oid2]);
+      }
+    });
+  });
+
+  it('should sort array of ObjectId desc', () => {
+    const oid1 = new mongoose.Types.ObjectId();
+    const oid2 = new mongoose.Types.ObjectId();
+    test({
+      type: [Schema.Types.ObjectId],
+      validator: 'sort',
+      args: 'desc',
+      valid: [
+        [oid2, undefined, null, oid1, oid2, oid1]
+      ],
+      assert: function (val) {
+        expect(val).to.be.eql([oid2, oid1]);
+      }
+    });
+  });
+
 });

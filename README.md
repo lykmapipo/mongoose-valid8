@@ -41,28 +41,264 @@ user.save((error) => {
 });
 ```
 
-## Available Validations
+## Validations
 
 ## String
-- `email`
-- `macaddres`
-- `ip`
-- `fqdn`
-- `alpha`
-- `alphanumeric`
-- `md5`
-- `uuid`
-- `creditcard`
-- `base64`
-- `datauri`
-- `mobile`
-- `mimetype`
-- `url`
+
+### `email: Boolean`
+When set to `true` force value to be valid email address.
+```js
+new Schema({
+  email: {
+    type: String,
+    email: true
+  }
+});
+```
+
+### `macaddress: Boolean`
+When set to `true` force value to be valid macaddress.
+```js
+new Schema({
+  address: {
+    type: String,
+    macaddress: true
+  }
+});
+```
+
+### `ip: Boolean`
+When set to `true` force value to be valid ip address.
+```js
+new Schema({
+  address: {
+    type: String,
+    ip: true
+  }
+});
+```
+
+### `fqdn: Boolean`
+When set to `true` force value to be valid full qualified domain name.
+```js
+new Schema({
+  address: {
+    type: String,
+    fqdn: true
+  }
+});
+```
+
+### `alpha: Boolean`
+When set to `true` force value to only contain alpha.
+```js
+new Schema({
+  address: {
+    type: String,
+    alpha: true
+  }
+});
+```
+
+### `alphanumeric: Boolean`
+When set to `true` force value to contain only alphanumeric.
+```js
+new Schema({
+  address: {
+    type: String,
+    aphanumeric: true
+  }
+});
+```
+
+### `md5: Boolean`
+When set to `true` force value to be valid md5 hash.
+```js
+new Schema({
+  hash: {
+    type: String,
+    md5: true
+  }
+});
+```
+
+### `uuid: Boolean`
+When set to `true` force value to be valid uuid.
+```js
+new Schema({
+  oid: {
+    type: String,
+    uuid: true
+  }
+});
+```
+
+### `creditcard: Boolean`
+When set to `true` force value to be valid credit card.
+```js
+new Schema({
+  card: {
+    type: String,
+    creditcard: true
+  }
+});
+```
+
+### `base64: Boolean`
+When set to `true` force value to be valid base64 content.
+```js
+new Schema({
+  url: {
+    type: String,
+    base64: true
+  }
+});
+```
+
+### `datauri: Boolean`
+When set to `true` force value to be valid data uri.
+```js
+new Schema({
+  url: {
+    type: String,
+    datauri: true
+  }
+});
+```
+
+### `mobile: Boolean`
+When set to `true` force value to be valid mobile number.
+```js
+new Schema({
+  phone: {
+    type: String,
+    mobile: true
+  }
+});
+```
+
+### `mimetype: Boolean`
+When set to `true` force value to be mime type value.
+```js
+new Schema({
+  mime: {
+    type: String,
+    mimetype: true
+  }
+});
+```
+
+### `url: Boolean`
+When set to `true` force value to be valid url.
+```js
+new Schema({
+  address: {
+    type: String,
+    url: true
+  }
+});
+```
 
 ## Number
-- `numeric`
-- `integer`
-- `float`
+
+### `numeric: Boolean`
+When set to `true` force value to be numeric.
+```js
+new Schema({
+  value: {
+    type: Number,
+    numeric: true
+  }
+});
+```
+
+### `integer: Boolean`
+When set to `true` force value to be integer.
+```js
+new Schema({
+  step: {
+    type: Number,
+    integer: true
+  }
+});
+```
+
+### `float: Boolean`
+When set to `true` force value to float.
+```js
+new Schema({
+  price: {
+    type: Number,
+    float: true
+  }
+});
+```
+
+## Array
+
+### `empty: Boolean` 
+When set to `false` force non empty array value.
+```js
+new Schema({
+  email: {
+    type: [String],
+    empty: false
+  }
+});
+```
+
+### `compact: Boolean` 
+When set to `true` will remove falsey values.
+```js
+new Schema({
+  email: {
+    type: [String],
+    compact: true
+  }
+})
+```
+
+### `duplicate: Boolean|Function` 
+When set to `false` or `comparator` will remove duplicate values.
+```js
+new Schema({
+  to: {
+    type: [String],
+    duplicate: false
+  }
+})
+
+or
+
+new Schema({
+  to: {
+    type: [String],
+    duplicate: (a, b) => a === b
+  }
+})
+
+```
+
+### `sort: Boolean|String` 
+When set to `true`, `asc` or `desc` create sorted elements.
+```js
+new Schema({
+  to: {
+    type: [String],
+    sort: false
+  }
+})
+
+or
+
+new Schema({
+  to: {
+    type: [String],
+    sort: 'desc'
+  }
+})
+
+```
 
 ## Testing
 * Clone this repository

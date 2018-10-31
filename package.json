@@ -28,7 +28,11 @@
     "mimetype",
     "numeric",
     "integer",
-    "float"
+    "float",
+    "empty",
+    "compact",
+    "duplicate",
+    "sort"
   ],
   "main": "index.js",
   "scripts": {
@@ -48,10 +52,12 @@
     "url": "https://github.com/lykmapipo/mongoose-valid8/issues"
   },
   "homepage": "https://github.com/lykmapipo/mongoose-valid8",
-  "contributors": [{
-    "name": "lykmapipo",
-    "github": "https://github.com/lykmapipo"
-  }],
+  "contributors": [
+    {
+      "name": "lykmapipo",
+      "github": "https://github.com/lykmapipo"
+    }
+  ],
   "devDependencies": {
     "chai": "^4.2.0",
     "faker": "^4.1.0",

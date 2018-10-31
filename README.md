@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/lykmapipo/mongoose-valid8.svg?branch=master)](https://travis-ci.org/lykmapipo/mongoose-valid8)
 
-Additional mongoose schema validations based on [validator.js](https://github.com/chriso/validator.js)
+Additional mongoose schema validations.
 
 *Note!: v1.0.0 drops support for all validators and only specific validators are available*
 
@@ -22,36 +22,23 @@ npm install mongoose mongoose-valid8 --save
 ## Usage
 
 ```javascript
-const mongoose = require('mongoose');
-require('mongoose-valid8');
-const Schema = mongoose.Schema;
-
-
-//define you schema using validator
-const PersonSchema = new Schema({
+const { model, Schema } = require('mongoose-valid8');
+const User = model('User', new Schema({
   email: {
     type: String,
     email: true
   }
+}));
+
+const user = new User({ email: 'invalidemail' });
+
+user.validate((error) => {
+  expect(error).to.exist;
 });
-const Person = mongoose.model('User', UserSchema);
 
-
-//validate
-new Person({ email: 'invalidemail' })
-  .validate(function (error) {
-    //errors
-    ...
-  });
-
-
-//or save
-new Person({ email: 'invalidemail' })
-  .save(function (error) {
-    //errors
-    ...
-  });
-
+user.save((error) => {
+  expect(error).to.exist;
+});
 ```
 
 ## Available Validations

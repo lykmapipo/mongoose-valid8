@@ -94,6 +94,35 @@ describe('String Validators', () => {
     });
   });
 
+  it('should convert to capitalize value', () => {
+    test({
+      type: String,
+      validator: 'capitalize',
+      valid: [
+        'fred',
+        'freD',
+      ],
+      assert: function (val) {
+        expect(val).to.be.eql('Fred');
+      }
+    });
+  });
+
+  it('should convert to start case(title case) value', () => {
+    test({
+      type: String,
+      validator: 'startcase',
+      valid: [
+        'fred Fuga',
+        'freD FuGa',
+        'freD---FuGa'
+      ],
+      assert: function (val) {
+        expect(val).to.be.eql('Fred Fuga');
+      }
+    });
+  });
+
   it('should validate MAC addresses', () => {
     test({
       type: String,

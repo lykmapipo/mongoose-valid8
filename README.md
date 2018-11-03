@@ -45,6 +45,7 @@ user.save((error) => {
 
 ## String
 
+
 ### `email: Boolean`
 When set to `true` force value to be valid email address.
 ```js
@@ -55,6 +56,29 @@ new Schema({
   }
 });
 ```
+
+### `capitalize: Boolean`
+When set to `true` it converts the first character of string to upper case and the remaining to lower case.
+```js
+new Schema({
+  firstName: {
+    type: String,
+    capitalize: true
+  }
+});
+```
+
+### `startcase: Boolean`
+When set to `true` converts string to start case(or title case).
+```js
+new Schema({
+  name: {
+    type: String,
+    startcase: true
+  }
+});
+```
+
 
 ### `macaddress: Boolean`
 When set to `true` force value to be valid macaddress.

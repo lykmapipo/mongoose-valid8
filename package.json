@@ -1,6 +1,6 @@
 {
   "name": "mongoose-valid8",
-  "version": "1.3.0",
+  "version": "1.3.1",
   "description": "Additional mongoose schema validations",
   "keywords": [
     "mongoose",
@@ -70,13 +70,13 @@
     "jshint-stylish": "^2.2.1",
     "lodash": "^4.17.11",
     "mocha": "^5.2.0",
-    "mongoose": "^5.3.9"
+    "mongoose": "^5.3.10"
   },
   "peerDependencies": {
     "lodash": "^4.17.11",
-    "mongoose": "^5.3.9"
+    "mongoose": "^5.3.10"
   },
   "dependencies": {
-    "validator": "^10.8.0"
+    "validator": "^10.9.0"
   }
 }

@@ -204,6 +204,15 @@ new Schema({
   phoneNumber: {
     type: String,
     phone: {
+      countries: ['TZ', 'US']
+    }
+  }
+});
+
+new Schema({
+  phoneNumber: {
+    type: String,
+    phone: {
       mobile: true
     }
   }

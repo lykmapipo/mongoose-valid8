@@ -190,13 +190,31 @@ new Schema({
 });
 ```
 
-### `mobile: Boolean`
-When set to `true` force value to be valid mobile number.
+### `phone: Object|Boolean`
+When set to `true` force value to be valid phone number.
 ```js
 new Schema({
-  phone: {
+  phoneNumber: {
     type: String,
-    mobile: true
+    phone: true
+  }
+});
+
+new Schema({
+  phoneNumber: {
+    type: String,
+    phone: {
+      mobile: true
+    }
+  }
+});
+
+new Schema({
+  phoneNumber: {
+    type: String,
+    phone: {
+      fixedline: true
+    }
   }
 });
 ```

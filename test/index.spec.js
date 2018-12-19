@@ -9,6 +9,10 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 require(path.join(__dirname, '..', 'index'));
 
+/* .env */
+process.env.DEFAULT_COUNTRY_CODES = 'TZ,US';
+
+
 /* TODO refactor per schema type */
 
 /* test runner */
@@ -395,24 +399,61 @@ describe('String Validators', () => {
     });
   });
 
+  it('should validate phone number', () => {
+    test({
+      type: String,
+      validator: 'phone',
+      valid: [
+        '+971585215778',
+        '800-621-3362',
+        '+255714080898',
+        '0714080898',
+        '022 211 1174',
+        '0800110064'
+      ],
+      invalid: [
+        '',
+        '123'
+      ],
+    });
+  });
+
   it('should validate mobile phone number', () => {
     test({
       type: String,
-      validator: 'mobile',
+      validator: 'phone',
+      args: { mobile: true },
       valid: [
         '+971502674453',
-        '+971521247658',
-        '+971541255684',
-        '+971555454458',
-        '+971561498855',
-        '+971585215778',
-        '971585215778',
-        '0585215778',
-        '585215778',
-        '255714080898',
+        '+255714080898',
+        '0714080898',
       ],
       invalid: [
-        ''
+        '',
+        '123',
+        '022 211 1174',
+        '800-621-3362',
+        '0800110064'
+      ],
+    });
+  });
+
+  it('should validate phone number', () => {
+    test({
+      type: String,
+      validator: 'phone',
+      args: { fixedline: true },
+      valid: [
+        '800-621-3362',
+        '022 211 1174',
+        '0800110064'
+      ],
+      invalid: [
+        '',
+        '123',
+        '+971585215778',
+        '+255714080898',
+        '0714080898'
       ],
     });
   });

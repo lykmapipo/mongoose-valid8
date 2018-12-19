@@ -418,6 +418,46 @@ describe('String Validators', () => {
     });
   });
 
+  it('should validate phone number', () => {
+    test({
+      type: String,
+      validator: 'phone',
+      args: { countries: ['TZ', 'US'] },
+      valid: [
+        '+971585215778',
+        '800-621-3362',
+        '+255714080898',
+        '0714080898',
+        '022 211 1174',
+        '0800110064'
+      ],
+      invalid: [
+        '',
+        '123'
+      ],
+    });
+  });
+
+  it('should validate phone number', () => {
+    test({
+      type: String,
+      validator: 'phone',
+      args: { countries: 'TZ' },
+      valid: [
+        '+971585215778',
+        '800-621-3362',
+        '+255714080898',
+        '0714080898',
+        '022 211 1174',
+        '0800110064'
+      ],
+      invalid: [
+        '',
+        '123'
+      ],
+    });
+  });
+
   it('should validate mobile phone number', () => {
     test({
       type: String,

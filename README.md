@@ -191,7 +191,7 @@ new Schema({
 ```
 
 ### `phone: Object|Boolean`
-When set to `true` force value to be valid phone number.
+When `set` it force value to be valid phone number.
 ```js
 new Schema({
   phoneNumber: {

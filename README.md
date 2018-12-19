@@ -204,7 +204,8 @@ new Schema({
   phoneNumber: {
     type: String,
     phone: {
-      countries: ['TZ', 'US']
+      countries: ['TZ', 'US'],
+      e164: true
     }
   }
 });
@@ -213,7 +214,8 @@ new Schema({
   phoneNumber: {
     type: String,
     phone: {
-      mobile: true
+      mobile: true,
+      e164: true
     }
   }
 });

@@ -414,7 +414,7 @@ describe('String Validators', () => {
       invalid: [
         '',
         '123'
-      ],
+      ]
     });
   });
 
@@ -434,7 +434,21 @@ describe('String Validators', () => {
       invalid: [
         '',
         '123'
+      ]
+    });
+  });
+
+  it('should validate phone number and format into e164', () => {
+    test({
+      type: String,
+      validator: 'phone',
+      args: { countries: ['TZ'], e164: true },
+      valid: [
+        '0714080898'
       ],
+      assert: function (val) {
+        expect(val).to.be.equal('255714080898');
+      }
     });
   });
 

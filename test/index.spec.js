@@ -728,6 +728,7 @@ describe('Array Validators', () => {
     test({
       type: [String],
       validator: 'duplicate',
+      args: false,
       valid: [
         ['a', 'a', undefined, null, 'b', 'b']
       ],
@@ -743,6 +744,7 @@ describe('Array Validators', () => {
     test({
       type: [Schema.Types.ObjectId],
       validator: 'duplicate',
+      args: false,
       valid: [
         [oid1, undefined, null, oid1, oid2, oid2]
       ],

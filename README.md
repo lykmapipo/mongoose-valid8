@@ -252,6 +252,17 @@ new Schema({
 });
 ```
 
+### `jwt: Boolean`
+When set to `true` force value to be valid json web token.
+```js
+new Schema({
+  address: {
+    type: String,
+    jwt: true
+  }
+});
+```
+
 ## Number
 
 ### `numeric: Boolean`

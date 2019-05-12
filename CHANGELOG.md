@@ -1,3 +1,9 @@
+#### 1.5.3 (2019-05-12)
+
+##### Chores
+
+* **deps:**  force latest version & audit fix ([727c04a4](https://github.com/lykmapipo/mongoose-valid8/commit/727c04a420fa9a9b68502c570585edff66f00363))
+
 #### 1.5.2 (2019-05-01)
 
 ##### Chores

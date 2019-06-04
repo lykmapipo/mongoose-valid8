@@ -69,15 +69,15 @@
     "grunt-mocha-test": "^0.13.3",
     "jshint-stylish": "^2.2.1",
     "mocha": "^6.1.4",
-    "mongoose": ">=5.5.9"
+    "mongoose": ">=5.5.12"
   },
   "peerDependencies": {
-    "mongoose": ">=5.5.9"
+    "mongoose": ">=5.5.12"
   },
   "dependencies": {
-    "@lykmapipo/env": ">=0.7.7",
+    "@lykmapipo/env": ">=0.7.9",
     "@lykmapipo/phone": ">=0.3.5",
     "lodash": ">=4.17.11",
-    "validator": ">=10.11.0"
+    "validator": ">=11.0.0"
   }
 }

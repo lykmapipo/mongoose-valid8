@@ -1,3 +1,9 @@
+#### 1.5.8 (2019-06-14)
+
+##### Tests
+
+*  fix mobile number validators ([f2ca13e8](https://github.com/lykmapipo/mongoose-valid8/commit/f2ca13e8ac5a3550223a4a5c6c535be5cff2a909))
+
 #### 1.5.7 (2019-06-14)
 
 ##### Chores

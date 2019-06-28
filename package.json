@@ -70,14 +70,14 @@
     "handlebars": "^4.1.2",
     "jshint-stylish": "^2.2.1",
     "mocha": "^6.1.4",
-    "mongoose": ">=5.6.0"
+    "mongoose": ">=5.6.1"
   },
   "peerDependencies": {
-    "mongoose": ">=5.6.0"
+    "mongoose": ">=5.6.1"
   },
   "dependencies": {
-    "@lykmapipo/env": ">=0.9.1",
-    "@lykmapipo/phone": ">=0.5.0",
+    "@lykmapipo/env": ">=0.9.4",
+    "@lykmapipo/phone": ">=0.5.2",
     "lodash": ">=4.17.11",
     "validator": ">=11.0.0"
   }

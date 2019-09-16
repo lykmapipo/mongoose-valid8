@@ -1,6 +1,6 @@
 {
   "name": "mongoose-valid8",
-  "version": "1.5.14",
+  "version": "1.5.15",
   "description": "Additional mongoose schema validations",
   "keywords": [
     "mongoose",

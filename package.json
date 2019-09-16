@@ -67,18 +67,18 @@
     "grunt-contrib-jshint": "^2.1.0",
     "grunt-contrib-watch": "^1.1.0",
     "grunt-mocha-test": "^0.13.3",
-    "handlebars": "^4.1.2",
+    "handlebars": "^4.2.0",
     "jshint-stylish": "^2.2.1",
     "mocha": "^6.2.0",
-    "mongoose": ">=5.6.11",
+    "mongoose": ">=5.7.1",
     "shelljs": "^0.8.3"
   },
   "peerDependencies": {
-    "mongoose": ">=5.6.11"
+    "mongoose": ">=5.7.1"
   },
   "dependencies": {
-    "@lykmapipo/env": ">=0.12.2",
-    "@lykmapipo/phone": ">=0.5.4",
+    "@lykmapipo/env": ">=0.13.2",
+    "@lykmapipo/phone": ">=0.5.7",
     "lodash": ">=4.17.15",
     "validator": ">=11.1.0"
   }

@@ -67,19 +67,19 @@
     "grunt-contrib-jshint": "^2.1.0",
     "grunt-contrib-watch": "^1.1.0",
     "grunt-mocha-test": "^0.13.3",
-    "handlebars": "^4.4.5",
+    "handlebars": "^4.5.2",
     "jshint-stylish": "^2.2.1",
     "mocha": "^6.2.2",
-    "mongoose": ">=5.7.6",
+    "mongoose": ">=5.7.10",
     "shelljs": "^0.8.3"
   },
   "peerDependencies": {
-    "mongoose": ">=5.7.6"
+    "mongoose": ">=5.7.10"
   },
   "dependencies": {
-    "@lykmapipo/env": ">=0.14.7",
+    "@lykmapipo/env": ">=0.14.11",
     "@lykmapipo/phone": ">=0.5.10",
     "lodash": ">=4.17.15",
-    "validator": ">=11.1.0"
+    "validator": ">=12.0.0"
   }
 }

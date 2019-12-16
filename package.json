@@ -70,11 +70,11 @@
     "handlebars": "^4.5.3",
     "jshint-stylish": "^2.2.1",
     "mocha": "^6.2.2",
-    "mongoose": ">=5.7.14",
+    "mongoose": ">=5.8.1",
     "shelljs": "^0.8.3"
   },
   "peerDependencies": {
-    "mongoose": ">=5.7.14"
+    "mongoose": ">=5.8.1"
   },
   "dependencies": {
     "@lykmapipo/env": ">=0.16.0",

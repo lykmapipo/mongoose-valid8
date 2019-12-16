@@ -1,3 +1,19 @@
+#### 1.6.0 (2019-12-16)
+
+##### Chores
+
+* **deps:**  force latest version & audit fix ([2231b25f](https://github.com/lykmapipo/mongoose-valid8/commit/2231b25f7d29d129764d6fadfde6d73c1bf48d74))
+
+##### Documentation Changes
+
+*  add hexadecimal & hexacolor usage ([ab5393cf](https://github.com/lykmapipo/mongoose-valid8/commit/ab5393cfa617adc752b5ca5748605f35475fcc3f))
+
+##### New Features
+
+* **string:**
+  *  add hexacolor validator ([7b690e21](https://github.com/lykmapipo/mongoose-valid8/commit/7b690e2163fb87396f1ef0c6999f355736320702))
+  *  add hexadecimal validator ([d92f6cca](https://github.com/lykmapipo/mongoose-valid8/commit/d92f6cca40ea350c48108aaf1e3d89d20c4992e1))
+
 #### 1.5.20 (2019-12-09)
 
 ##### Chores

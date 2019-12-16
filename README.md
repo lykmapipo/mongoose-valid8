@@ -263,6 +263,28 @@ new Schema({
 });
 ```
 
+### `hexadecimal: Boolean`
+When set to `true` force value to be valid hexadecimal value.
+```js
+new Schema({
+  address: {
+    type: String,
+    hexadecimal: true
+  }
+});
+```
+
+### `hexacolor: Boolean`
+When set to `true` force value to be valid hexacolor value.
+```js
+new Schema({
+  address: {
+    type: String,
+    hexacolor: true
+  }
+});
+```
+
 ## Number
 
 ### `numeric: Boolean`

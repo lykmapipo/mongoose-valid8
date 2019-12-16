@@ -616,6 +616,24 @@ describe('String Validators', () => {
     });
   });
 
+  it('should validate hexadecimal strings', () => {
+    test({
+      type: String,
+      validator: 'hexadecimal',
+      valid: [
+        'deadBEEF',
+        'ff0044',
+        '0xff0044',
+        '0XfF0044',
+      ],
+      invalid: [
+        'abcdefg',
+        '',
+        '..',
+      ],
+    });
+  });
+
 });
 
 

@@ -634,6 +634,24 @@ describe('String Validators', () => {
     });
   });
 
+  it('should validate hexacolor strings', () => {
+    test({
+      type: String,
+      validator: 'hexacolor',
+      valid: [
+        '#ff0034',
+        '#CCCCCC',
+        'fff',
+        '#f00',
+      ],
+      invalid: [
+        '#ff',
+        'fff0',
+        '#ff12FG',
+      ],
+    });
+  });
+
 });
 
 

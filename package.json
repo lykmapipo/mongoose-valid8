@@ -70,15 +70,15 @@
     "handlebars": "^4.7.3",
     "jshint-stylish": "^2.2.1",
     "mocha": "^7.1.0",
-    "mongoose": ">=5.9.2",
+    "mongoose": ">=5.9.3",
     "shelljs": "^0.8.3"
   },
   "peerDependencies": {
-    "mongoose": ">=5.9.2"
+    "mongoose": ">=5.9.3"
   },
   "dependencies": {
-    "@lykmapipo/env": ">=0.16.8",
-    "@lykmapipo/phone": ">=0.5.18",
+    "@lykmapipo/env": ">=0.16.9",
+    "@lykmapipo/phone": ">=0.5.19",
     "lodash": ">=4.17.15",
     "validator": ">=12.2.0"
   }

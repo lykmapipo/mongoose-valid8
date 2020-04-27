@@ -69,16 +69,16 @@
     "grunt-mocha-test": "^0.13.3",
     "handlebars": "^4.7.6",
     "jshint-stylish": "^2.2.1",
-    "mocha": "^7.1.1",
-    "mongoose": ">=5.9.9",
-    "shelljs": "^0.8.3"
+    "mocha": "^7.1.2",
+    "mongoose": ">=5.9.10",
+    "shelljs": "^0.8.4"
   },
   "peerDependencies": {
-    "mongoose": ">=5.9.9"
+    "mongoose": ">=5.9.10"
   },
   "dependencies": {
-    "@lykmapipo/env": ">=0.16.12",
-    "@lykmapipo/phone": ">=0.5.21",
+    "@lykmapipo/env": ">=0.17.3",
+    "@lykmapipo/phone": ">=0.5.22",
     "lodash": ">=4.17.15",
     "validator": ">=13.0.0"
   }

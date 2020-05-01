@@ -1,3 +1,9 @@
+#### 1.6.15 (2020-05-01)
+
+##### Tests
+
+*  fix color string assertions ([d6833169](https://github.com/lykmapipo/mongoose-valid8/commit/d68331693e20daeb368992641ca1e28cd55ea24a))
+
 #### 1.6.14 (2020-04-27)
 
 ##### Chores

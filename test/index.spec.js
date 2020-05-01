@@ -646,7 +646,7 @@ describe('String Validators', () => {
       ],
       invalid: [
         '#ff',
-        'fff0',
+        'fff0a',
         '#ff12FG',
       ],
     });

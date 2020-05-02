@@ -77,8 +77,8 @@
     "mongoose": ">=5.9.11"
   },
   "dependencies": {
-    "@lykmapipo/env": ">=0.17.3",
-    "@lykmapipo/phone": ">=0.5.22",
+    "@lykmapipo/env": ">=0.17.4",
+    "@lykmapipo/phone": ">=0.6.1",
     "lodash": ">=4.17.15",
     "validator": ">=13.0.0"
   }

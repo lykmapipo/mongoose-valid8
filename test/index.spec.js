@@ -361,7 +361,6 @@ describe('String Validators', () => {
       ],
       invalid: [
         '12345',
-        '',
         'Vml2YW11cyBmZXJtZtesting123',
         'Zg=',
         'Z===',

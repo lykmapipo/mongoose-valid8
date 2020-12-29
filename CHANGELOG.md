@@ -1,3 +1,9 @@
+#### 1.7.0 (2020-12-29)
+
+##### Bug Fixes
+
+* **base64:**  ignore empty for invalid ([d7f19682](https://github.com/lykmapipo/mongoose-valid8/commit/d7f1968281ce8b4cfdcd0da8d9f2f22973c4a359))
+
 #### 1.6.26 (2020-12-27)
 
 ##### Chores

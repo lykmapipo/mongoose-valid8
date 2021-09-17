@@ -1,54 +1,49 @@
-'use strict';
+import _ from 'lodash';
+import validator from 'validator';
+import { getString } from '@lykmapipo/env';
+import { parsePhoneNumber } from '@lykmapipo/phone';
+import mongoose from 'mongoose';
 
-
-/* dependencies */
-const _ = require('lodash');
-const validator = require('validator');
-const { getString } = require('@lykmapipo/env');
-const { parsePhoneNumber } = require('@lykmapipo/phone');
-const mongoose = require('mongoose');
 const MongooseError = mongoose.Error;
 const SchemaString = mongoose.Schema.Types.String;
 
-
 /* custom validations error message */
 MongooseError.messages.String.email =
-  ('`{VALUE}` is not a valid email address for path `{PATH}`.');
+  '`{VALUE}` is not a valid email address for path `{PATH}`.';
 MongooseError.messages.String.macaddress =
-  ('`{VALUE}` is not a valid mac address for path `{PATH}`.');
+  '`{VALUE}` is not a valid mac address for path `{PATH}`.';
 MongooseError.messages.String.ip =
-  ('`{VALUE}` is not a valid ip address for path `{PATH}`.');
+  '`{VALUE}` is not a valid ip address for path `{PATH}`.';
 MongooseError.messages.String.fqdn =
-  ('`{VALUE}` is not a valid fully qualified domain name for path `{PATH}`.');
+  '`{VALUE}` is not a valid fully qualified domain name for path `{PATH}`.';
 MongooseError.messages.String.alpha =
-  ('`{VALUE}` is not a valid alpha value for path `{PATH}`.');
+  '`{VALUE}` is not a valid alpha value for path `{PATH}`.';
 MongooseError.messages.String.alphanumeric =
-  ('`{VALUE}` is not a valid alphanumeric value for path `{PATH}`.');
+  '`{VALUE}` is not a valid alphanumeric value for path `{PATH}`.';
 MongooseError.messages.String.md5 =
-  ('`{VALUE}` is not a valid md5 value for path `{PATH}`.');
+  '`{VALUE}` is not a valid md5 value for path `{PATH}`.';
 MongooseError.messages.String.creditcard =
-  ('`{VALUE}` is not a valid credit card value for path `{PATH}`.');
+  '`{VALUE}` is not a valid credit card value for path `{PATH}`.';
 MongooseError.messages.String.base64 =
-  ('`{VALUE}` is not a valid base64 value for path `{PATH}`.');
+  '`{VALUE}` is not a valid base64 value for path `{PATH}`.';
 MongooseError.messages.String.datauri =
-  ('`{VALUE}` is not a valid Data URI value for path `{PATH}`.');
+  '`{VALUE}` is not a valid Data URI value for path `{PATH}`.';
 MongooseError.messages.String.mimetype =
-  ('`{VALUE}` is not a valid mimetype value for path `{PATH}`.');
+  '`{VALUE}` is not a valid mimetype value for path `{PATH}`.';
 MongooseError.messages.String.url =
-  ('`{VALUE}` is not a valid URL value for path `{PATH}`.');
+  '`{VALUE}` is not a valid URL value for path `{PATH}`.';
 MongooseError.messages.String.phone =
-  ('`{VALUE}` is not a valid phone number value for path `{PATH}`.');
+  '`{VALUE}` is not a valid phone number value for path `{PATH}`.';
 MongooseError.messages.String.mobile =
-  ('`{VALUE}` is not a valid mobile phone number value for path `{PATH}`.');
+  '`{VALUE}` is not a valid mobile phone number value for path `{PATH}`.';
 MongooseError.messages.String.fixedline =
-  ('`{VALUE}` is not a valid fixedline phone number value for path `{PATH}`.');
+  '`{VALUE}` is not a valid fixedline phone number value for path `{PATH}`.';
 MongooseError.messages.String.jwt =
-  ('`{VALUE}` is not a valid json web token for path `{PATH}`.');
+  '`{VALUE}` is not a valid json web token for path `{PATH}`.';
 MongooseError.messages.String.hexadecimal =
-  ('`{VALUE}` is not a valid hexadecimal value for path `{PATH}`.');
+  '`{VALUE}` is not a valid hexadecimal value for path `{PATH}`.';
 MongooseError.messages.String.hexacolor =
-  ('`{VALUE}` is not a valid hexacolor value for path `{PATH}`.');
-
+  '`{VALUE}` is not a valid hexacolor value for path `{PATH}`.';
 
 /**
  * Sets email validator.
@@ -64,35 +59,33 @@ MongooseError.messages.String.hexacolor =
  *       m.save() // success
  *     })
  *
- * @param {Boolean|Object} options email validation options
- * @param {String} [message] optional custom error message
- * @return {SchemaType} this
+ * @param {boolean | object} options email validation options
+ * @param {string} [message] optional custom error message
+ * @returns {object} valid mongoose validator
  * @see Customized Error Messages #error_messages_MongooseError-messages
- * @api public
+ * @public
  */
 SchemaString.prototype.email = function email(options, message) {
   if (this.emailValidator) {
-    this.validators = this.validators.filter(function (v) {
+    this.validators = this.validators.filter(function filter(v) {
       return v.validator !== this.emailValidator;
     }, this);
   }
 
   if (options !== null && options !== undefined) {
     const msg =
-      (options.message || message || MongooseError.messages.String.email);
+      options.message || message || MongooseError.messages.String.email;
     this.validators.push({
-      validator: this.emailValidator = function (v) {
+      validator: (this.emailValidator = function emailValidator(v) {
         return validator.isEmail(String(v));
-      },
+      }),
       message: msg,
-      type: 'email'
+      type: 'email',
     });
   }
 
   return this;
-
 };
-
 
 /**
  * Sets macaddress validator.
@@ -108,36 +101,33 @@ SchemaString.prototype.email = function email(options, message) {
  *       m.save() // success
  *     })
  *
- * @param {Boolean|Object} options macaddress validation options
- * @param {String} [message] optional custom error message
- * @return {SchemaType} this
+ * @param {boolean | object} options macaddress validation options
+ * @param {string} [message] optional custom error message
+ * @returns {object} valid mongoose validator
  * @see Customized Error Messages #error_messages_MongooseError-messages
- * @api public
+ * @public
  */
 SchemaString.prototype.macaddress = function macaddress(options, message) {
-
   if (this.macaddressValidator) {
-    this.validators = this.validators.filter(function (v) {
+    this.validators = this.validators.filter(function filter(v) {
       return v.validator !== this.macaddressValidator;
     }, this);
   }
 
   if (options !== null && options !== undefined) {
     const msg =
-      (options.message || message || MongooseError.messages.String.macaddress);
+      options.message || message || MongooseError.messages.String.macaddress;
     this.validators.push({
-      validator: this.macaddressValidator = function (v) {
+      validator: (this.macaddressValidator = function macaddressValidator(v) {
         return validator.isMACAddress(String(v));
-      },
+      }),
       message: msg,
-      type: 'macaddress'
+      type: 'macaddress',
     });
   }
 
   return this;
-
 };
-
 
 /**
  * Sets ip validator.
@@ -153,36 +143,32 @@ SchemaString.prototype.macaddress = function macaddress(options, message) {
  *       m.save() // success
  *     })
  *
- * @param {Boolean|Object} options ip validation options
- * @param {String} [message] optional custom error message
- * @return {SchemaType} this
+ * @param {boolean | object} options ip validation options
+ * @param {string} [message] optional custom error message
+ * @returns {object} valid mongoose validator
  * @see Customized Error Messages #error_messages_MongooseError-messages
- * @api public
+ * @public
  */
 SchemaString.prototype.ip = function ip(options, message) {
-
   if (this.ipValidator) {
-    this.validators = this.validators.filter(function (v) {
+    this.validators = this.validators.filter(function filter(v) {
       return v.validator !== this.ipValidator;
     }, this);
   }
 
   if (options !== null && options !== undefined) {
-    const msg =
-      (options.message || message || MongooseError.messages.String.ip);
+    const msg = options.message || message || MongooseError.messages.String.ip;
     this.validators.push({
-      validator: this.ipValidator = function (v) {
+      validator: (this.ipValidator = function ipValidator(v) {
         return validator.isIP(String(v));
-      },
+      }),
       message: msg,
-      type: 'ip'
+      type: 'ip',
     });
   }
 
   return this;
-
 };
-
 
 /**
  * Sets fqdn validator.
@@ -198,36 +184,33 @@ SchemaString.prototype.ip = function ip(options, message) {
  *       m.save() // success
  *     })
  *
- * @param {Boolean|Object} options fqdn validation options
- * @param {String} [message] optional custom error message
- * @return {SchemaType} this
+ * @param {boolean | object} options fqdn validation options
+ * @param {string} [message] optional custom error message
+ * @returns {object} valid mongoose validator
  * @see Customized Error Messages #error_messages_MongooseError-messages
- * @api public
+ * @public
  */
 SchemaString.prototype.fqdn = function fqdn(options, message) {
-
   if (this.fqdnValidator) {
-    this.validators = this.validators.filter(function (v) {
+    this.validators = this.validators.filter(function filter(v) {
       return v.validator !== this.fqdnValidator;
     }, this);
   }
 
   if (options !== null && options !== undefined) {
     const msg =
-      (options.message || message || MongooseError.messages.String.fqdn);
+      options.message || message || MongooseError.messages.String.fqdn;
     this.validators.push({
-      validator: this.fqdnValidator = function (v) {
+      validator: (this.fqdnValidator = function fqdnValidator(v) {
         return validator.isFQDN(String(v));
-      },
+      }),
       message: msg,
-      type: 'fqdn'
+      type: 'fqdn',
     });
   }
 
   return this;
-
 };
-
 
 /**
  * Sets alpha validator.
@@ -243,36 +226,33 @@ SchemaString.prototype.fqdn = function fqdn(options, message) {
  *       m.save() // success
  *     })
  *
- * @param {Boolean|Object} options alpha validation options
- * @param {String} [message] optional custom error message
- * @return {SchemaType} this
+ * @param {boolean | object} options alpha validation options
+ * @param {string} [message] optional custom error message
+ * @returns {object} valid mongoose validator
  * @see Customized Error Messages #error_messages_MongooseError-messages
- * @api public
+ * @public
  */
 SchemaString.prototype.alpha = function alpha(options, message) {
-
   if (this.alphaValidator) {
-    this.validators = this.validators.filter(function (v) {
+    this.validators = this.validators.filter(function filter(v) {
       return v.validator !== this.alphaValidator;
     }, this);
   }
 
   if (options !== null && options !== undefined) {
     const msg =
-      (options.message || message || MongooseError.messages.String.alpha);
+      options.message || message || MongooseError.messages.String.alpha;
     this.validators.push({
-      validator: this.alphaValidator = function (v) {
+      validator: (this.alphaValidator = function alphaValidator(v) {
         return validator.isAlpha(String(v));
-      },
+      }),
       message: msg,
-      type: 'alpha'
+      type: 'alpha',
     });
   }
 
   return this;
-
 };
-
 
 /**
  * Sets alphanumeric validator.
@@ -288,36 +268,35 @@ SchemaString.prototype.alpha = function alpha(options, message) {
  *       m.save() // success
  *     })
  *
- * @param {Boolean|Object} options alphanumeric validation options
- * @param {String} [message] optional custom error message
- * @return {SchemaType} this
+ * @param {boolean | object} options alphanumeric validation options
+ * @param {string} [message] optional custom error message
+ * @returns {object} valid mongoose validator
  * @see Customized Error Messages #error_messages_MongooseError-messages
- * @api public
+ * @public
  */
 SchemaString.prototype.alphanumeric = function alphanumeric(options, message) {
-
   if (this.alphanumericValidator) {
-    this.validators = this.validators.filter(function (v) {
+    this.validators = this.validators.filter(function filter(v) {
       return v.validator !== this.alphanumericValidator;
     }, this);
   }
 
   if (options !== null && options !== undefined) {
     const msg =
-      (options.message || message || MongooseError.messages.String.alphanumeric);
+      options.message || message || MongooseError.messages.String.alphanumeric;
     this.validators.push({
-      validator: this.alphanumericValidator = function (v) {
+      validator: (this.alphanumericValidator = function alphanumericValidator(
+        v
+      ) {
         return validator.isAlphanumeric(String(v));
-      },
+      }),
       message: msg,
-      type: 'alphanumeric'
+      type: 'alphanumeric',
     });
   }
 
   return this;
-
 };
-
 
 /**
  * Sets md5 validator.
@@ -333,36 +312,32 @@ SchemaString.prototype.alphanumeric = function alphanumeric(options, message) {
  *       m.save() // success
  *     })
  *
- * @param {Boolean|Object} options md5 validation options
- * @param {String} [message] optional custom error message
- * @return {SchemaType} this
+ * @param {boolean | object} options md5 validation options
+ * @param {string} [message] optional custom error message
+ * @returns {object} valid mongoose validator
  * @see Customized Error Messages #error_messages_MongooseError-messages
- * @api public
+ * @public
  */
 SchemaString.prototype.md5 = function md5(options, message) {
-
   if (this.md5Validator) {
-    this.validators = this.validators.filter(function (v) {
+    this.validators = this.validators.filter(function filter(v) {
       return v.validator !== this.md5Validator;
     }, this);
   }
 
   if (options !== null && options !== undefined) {
-    const msg =
-      (options.message || message || MongooseError.messages.String.md5);
+    const msg = options.message || message || MongooseError.messages.String.md5;
     this.validators.push({
-      validator: this.md5Validator = function (v) {
+      validator: (this.md5Validator = function md5Validator(v) {
         return validator.isMD5(String(v));
-      },
+      }),
       message: msg,
-      type: 'md5'
+      type: 'md5',
     });
   }
 
   return this;
-
 };
-
 
 /**
  * Sets uuid validator.
@@ -378,36 +353,33 @@ SchemaString.prototype.md5 = function md5(options, message) {
  *       m.save() // success
  *     })
  *
- * @param {Boolean|Object} options uuid validation options
- * @param {String} [message] optional custom error message
- * @return {SchemaType} this
+ * @param {boolean | object} options uuid validation options
+ * @param {string} [message] optional custom error message
+ * @returns {object} valid mongoose validator
  * @see Customized Error Messages #error_messages_MongooseError-messages
- * @api public
+ * @public
  */
 SchemaString.prototype.uuid = function uuid(options, message) {
-
   if (this.uuidValidator) {
-    this.validators = this.validators.filter(function (v) {
+    this.validators = this.validators.filter(function filter(v) {
       return v.validator !== this.uuidValidator;
     }, this);
   }
 
   if (options !== null && options !== undefined) {
     const msg =
-      (options.message || message || MongooseError.messages.String.uuid);
+      options.message || message || MongooseError.messages.String.uuid;
     this.validators.push({
-      validator: this.uuidValidator = function (v) {
+      validator: (this.uuidValidator = function uuidValidator(v) {
         return validator.isUUID(String(v));
-      },
+      }),
       message: msg,
-      type: 'uuid'
+      type: 'uuid',
     });
   }
 
   return this;
-
 };
-
 
 /**
  * Sets creditcard validator.
@@ -423,36 +395,33 @@ SchemaString.prototype.uuid = function uuid(options, message) {
  *       m.save() // success
  *     })
  *
- * @param {Boolean|Object} options creditcard validation options
- * @param {String} [message] optional custom error message
- * @return {SchemaType} this
+ * @param {boolean | object} options creditcard validation options
+ * @param {string} [message] optional custom error message
+ * @returns {object} valid mongoose validator
  * @see Customized Error Messages #error_messages_MongooseError-messages
- * @api public
+ * @public
  */
 SchemaString.prototype.creditcard = function creditcard(options, message) {
-
   if (this.creditcardValidator) {
-    this.validators = this.validators.filter(function (v) {
+    this.validators = this.validators.filter(function filter(v) {
       return v.validator !== this.creditcardValidator;
     }, this);
   }
 
   if (options !== null && options !== undefined) {
     const msg =
-      (options.message || message || MongooseError.messages.String.creditcard);
+      options.message || message || MongooseError.messages.String.creditcard;
     this.validators.push({
-      validator: this.creditcardValidator = function (v) {
+      validator: (this.creditcardValidator = function creditcardValidator(v) {
         return validator.isCreditCard(String(v));
-      },
+      }),
       message: msg,
-      type: 'creditcard'
+      type: 'creditcard',
     });
   }
 
   return this;
-
 };
-
 
 /**
  * Sets base64 validator.
@@ -468,36 +437,33 @@ SchemaString.prototype.creditcard = function creditcard(options, message) {
  *       m.save() // success
  *     })
  *
- * @param {Boolean|Object} options base64 validation options
- * @param {String} [message] optional custom error message
- * @return {SchemaType} this
+ * @param {boolean | object} options base64 validation options
+ * @param {string} [message] optional custom error message
+ * @returns {object} valid mongoose validator
  * @see Customized Error Messages #error_messages_MongooseError-messages
- * @api public
+ * @public
  */
 SchemaString.prototype.base64 = function base64(options, message) {
-
   if (this.base64Validator) {
-    this.validators = this.validators.filter(function (v) {
+    this.validators = this.validators.filter(function filter(v) {
       return v.validator !== this.base64Validator;
     }, this);
   }
 
   if (options !== null && options !== undefined) {
     const msg =
-      (options.message || message || MongooseError.messages.String.base64);
+      options.message || message || MongooseError.messages.String.base64;
     this.validators.push({
-      validator: this.base64Validator = function (v) {
+      validator: (this.base64Validator = function base64Validator(v) {
         return validator.isBase64(String(v));
-      },
+      }),
       message: msg,
-      type: 'base64'
+      type: 'base64',
     });
   }
 
   return this;
-
 };
-
 
 /**
  * Sets data uri validator.
@@ -513,36 +479,33 @@ SchemaString.prototype.base64 = function base64(options, message) {
  *       m.save() // success
  *     })
  *
- * @param {Boolean|Object} options datauri validation options
- * @param {String} [message] optional custom error message
- * @return {SchemaType} this
+ * @param {boolean | object} options datauri validation options
+ * @param {string} [message] optional custom error message
+ * @returns {object} valid mongoose validator
  * @see Customized Error Messages #error_messages_MongooseError-messages
- * @api public
+ * @public
  */
 SchemaString.prototype.datauri = function datauri(options, message) {
-
   if (this.datauriValidator) {
-    this.validators = this.validators.filter(function (v) {
+    this.validators = this.validators.filter(function filter(v) {
       return v.validator !== this.datauriValidator;
     }, this);
   }
 
   if (options !== null && options !== undefined) {
     const msg =
-      (options.message || message || MongooseError.messages.String.datauri);
+      options.message || message || MongooseError.messages.String.datauri;
     this.validators.push({
-      validator: this.dataUriValidator = function (v) {
+      validator: (this.dataUriValidator = function dataUriValidator(v) {
         return validator.isDataURI(String(v));
-      },
+      }),
       message: msg,
-      type: 'datauri'
+      type: 'datauri',
     });
   }
 
   return this;
-
 };
-
 
 /**
  * Sets mimetype validator.
@@ -558,36 +521,33 @@ SchemaString.prototype.datauri = function datauri(options, message) {
  *       m.save() // success
  *     })
  *
- * @param {Boolean|Object} options mimetype validation options
- * @param {String} [message] optional custom error message
- * @return {SchemaType} this
+ * @param {boolean | object} options mimetype validation options
+ * @param {string} [message] optional custom error message
+ * @returns {object} valid mongoose validator
  * @see Customized Error Messages #error_messages_MongooseError-messages
- * @api public
+ * @public
  */
 SchemaString.prototype.mimetype = function mimetype(options, message) {
-
   if (this.mimetypeValidator) {
-    this.validators = this.validators.filter(function (v) {
+    this.validators = this.validators.filter(function filter(v) {
       return v.validator !== this.mimetypeValidator;
     }, this);
   }
 
   if (options !== null && options !== undefined) {
     const msg =
-      (options.message || message || MongooseError.messages.String.mimetype);
+      options.message || message || MongooseError.messages.String.mimetype;
     this.validators.push({
-      validator: this.mimetypeValidator = function (v) {
+      validator: (this.mimetypeValidator = function mimetypeValidator(v) {
         return validator.isMimeType(String(v));
-      },
+      }),
       message: msg,
-      type: 'mimetype'
+      type: 'mimetype',
     });
   }
 
   return this;
-
 };
-
 
 /**
  * Sets url validator.
@@ -603,36 +563,32 @@ SchemaString.prototype.mimetype = function mimetype(options, message) {
  *       m.save() // success
  *     })
  *
- * @param {Boolean|Object} options url validation options
- * @param {String} [message] optional custom error message
- * @return {SchemaType} this
+ * @param {boolean | object} options url validation options
+ * @param {string} [message] optional custom error message
+ * @returns {object} valid mongoose validator
  * @see Customized Error Messages #error_messages_MongooseError-messages
- * @api public
+ * @public
  */
 SchemaString.prototype.url = function url(options, message) {
-
   if (this.urlValidator) {
-    this.validators = this.validators.filter(function (v) {
+    this.validators = this.validators.filter(function filter(v) {
       return v.validator !== this.urlValidator;
     }, this);
   }
 
   if (options !== null && options !== undefined) {
-    const msg =
-      (options.message || message || MongooseError.messages.String.url);
+    const msg = options.message || message || MongooseError.messages.String.url;
     this.validators.push({
-      validator: this.urlValidator = function (v) {
+      validator: (this.urlValidator = function urlValidator(v) {
         return validator.isURL(String(v));
-      },
+      }),
       message: msg,
-      type: 'url'
+      type: 'url',
     });
   }
 
   return this;
-
 };
-
 
 /**
  * Converts the first character of string to upper case and the remaining to
@@ -645,20 +601,19 @@ SchemaString.prototype.url = function url(options, message) {
  *     var m = new M({ name: 'fred'});
  *     console.log(m.name) // 'Fred'
  *
- * @api public
- * @return {SchemaType} this
+ * @public
+ * @returns {object} valid mongoose validator
  */
 
 SchemaString.prototype.capitalize = function capitalize(shouldApply) {
   if (arguments.length > 0 && !shouldApply) {
     return this;
   }
-  return this.set(function (v /*, self*/ ) {
+  return this.set(function setValue(v /* , self */) {
     const value = _.capitalize(v);
     return value;
   });
 };
-
 
 /**
  * Converts string to start case(or title case).
@@ -670,20 +625,19 @@ SchemaString.prototype.capitalize = function capitalize(shouldApply) {
  *     var m = new M({ name: 'fred fuga'});
  *     console.log(m.name) // 'Fred Fuga'
  *
- * @api public
- * @return {SchemaType} this
+ * @public
+ * @returns {object} valid mongoose validator
  */
 
 SchemaString.prototype.startcase = function startcase(shouldApply) {
   if (arguments.length > 0 && !shouldApply) {
     return this;
   }
-  return this.set(function (v /*, self*/ ) {
+  return this.set(function setValue(v /* , self */) {
     const value = _.startCase(_.toLower(v));
     return value;
   });
 };
-
 
 /**
  * Sets phone validator.
@@ -699,16 +653,15 @@ SchemaString.prototype.startcase = function startcase(shouldApply) {
  *       m.save() // success
  *     })
  *
- * @param {Boolean|Object} options phone validation options
- * @param {String} [message] optional custom error message
- * @return {SchemaType} this
+ * @param {boolean | object} options phone validation options
+ * @param {string} [message] optional custom error message
+ * @returns {object} valid mongoose validator
  * @see Customized Error Messages #error_messages_MongooseError-messages
- * @api public
+ * @public
  */
 SchemaString.prototype.phone = function phone(options, message) {
-
   if (this.phoneValidator) {
-    this.validators = this.validators.filter(function (v) {
+    this.validators = this.validators.filter(function filter(v) {
       return v.validator !== this.phoneValidator;
     }, this);
   }
@@ -719,21 +672,21 @@ SchemaString.prototype.phone = function phone(options, message) {
   if (options !== null && options !== undefined) {
     // collect validator options
     const { mobile, fixedline, e164 } = options;
-    const countries =
-      _.compact(([getString('DEFAULT_COUNTRY_CODE')].concat(options.countries)));
-    let msg = (message || MongooseError.messages.String.phone);
-    msg = (options.message || msg);
-    msg = (mobile ? MongooseError.messages.String.mobile : msg);
-    msg = (fixedline ? MongooseError.messages.String.fixedline : msg);
+    const countries = _.compact(
+      [getString('DEFAULT_COUNTRY_CODE')].concat(options.countries)
+    );
+    let msg = message || MongooseError.messages.String.phone;
+    msg = options.message || msg;
+    msg = mobile ? MongooseError.messages.String.mobile : msg;
+    msg = fixedline ? MongooseError.messages.String.fixedline : msg;
     // collect validator
     this.validators.push({
-      validator: this.phoneValidator = function (v) {
+      validator: (this.phoneValidator = function phoneValidator(v) {
         const phoneNumber = parsePhoneNumber(String(v), ...countries);
         const { isMobile, isFixedLine, isTollFree } = phoneNumber || {};
-        let isValid = (phoneNumber ? phoneNumber.isValid : false);
-        isValid = (mobile ? isValid && isMobile : isValid);
-        isValid =
-          (fixedline ? isValid && (isFixedLine || isTollFree) : isValid);
+        let isValid = phoneNumber ? phoneNumber.isValid : false;
+        isValid = mobile ? isValid && isMobile : isValid;
+        isValid = fixedline ? isValid && (isFixedLine || isTollFree) : isValid;
         // transform
         if (this.constructor.name === 'model') {
           if (isValid && e164) {
@@ -742,16 +695,14 @@ SchemaString.prototype.phone = function phone(options, message) {
         }
         // return validation status
         return isValid;
-      },
+      }),
       message: msg,
-      type: 'phone'
+      type: 'phone',
     });
   }
 
   return this;
-
 };
-
 
 /**
  * Sets jwt validator.
@@ -769,33 +720,31 @@ SchemaString.prototype.phone = function phone(options, message) {
  *       m.save() // success
  *     })
  *
- * @param {Boolean|Object} options jwt validation options
- * @param {String} [message] optional custom error message
- * @return {SchemaType} this
+ * @param {boolean | object} options jwt validation options
+ * @param {string} [message] optional custom error message
+ * @returns {object} valid mongoose validator
  * @see Customized Error Messages #error_messages_MongooseError-messages
- * @api public
+ * @public
  */
 SchemaString.prototype.jwt = function jwt(options, message) {
   if (this.jwtValidator) {
-    this.validators = this.validators.filter(function (v) {
+    this.validators = this.validators.filter(function filter(v) {
       return v.validator !== this.jwtValidator;
     }, this);
   }
 
   if (options !== null && options !== undefined) {
-    const msg =
-      (options.message || message || MongooseError.messages.String.jwt);
+    const msg = options.message || message || MongooseError.messages.String.jwt;
     this.validators.push({
-      validator: this.jwtValidator = function (v) {
+      validator: (this.jwtValidator = function jwtValidator(v) {
         return validator.isJWT(String(v));
-      },
+      }),
       message: msg,
-      type: 'jwt'
+      type: 'jwt',
     });
   }
 
   return this;
-
 };
 
 /**
@@ -812,33 +761,32 @@ SchemaString.prototype.jwt = function jwt(options, message) {
  *       m.save() // success
  *     })
  *
- * @param {Boolean|Object} options hexadecimal validation options
- * @param {String} [message] optional custom error message
- * @return {SchemaType} this
+ * @param {boolean | object} options hexadecimal validation options
+ * @param {string} [message] optional custom error message
+ * @returns {object} valid mongoose validator
  * @see Customized Error Messages #error_messages_MongooseError-messages
- * @api public
+ * @public
  */
 SchemaString.prototype.hexadecimal = function hexadecimal(options, message) {
   if (this.hexadecimalValidator) {
-    this.validators = this.validators.filter(function (v) {
+    this.validators = this.validators.filter(function filter(v) {
       return v.validator !== this.hexadecimalValidator;
     }, this);
   }
 
   if (options !== null && options !== undefined) {
     const msg =
-      (options.message || message || MongooseError.messages.String.hexadecimal);
+      options.message || message || MongooseError.messages.String.hexadecimal;
     this.validators.push({
-      validator: this.hexadecimalValidator = function (v) {
+      validator: (this.hexadecimalValidator = function hexadecimalValidator(v) {
         return validator.isHexadecimal(String(v));
-      },
+      }),
       message: msg,
-      type: 'hexadecimal'
+      type: 'hexadecimal',
     });
   }
 
   return this;
-
 };
 
 /**
@@ -855,31 +803,30 @@ SchemaString.prototype.hexadecimal = function hexadecimal(options, message) {
  *       m.save() // success
  *     })
  *
- * @param {Boolean|Object} options hexacolor validation options
- * @param {String} [message] optional custom error message
- * @return {SchemaType} this
+ * @param {boolean | object} options hexacolor validation options
+ * @param {string} [message] optional custom error message
+ * @returns {object} valid mongoose validator
  * @see Customized Error Messages #error_messages_MongooseError-messages
- * @api public
+ * @public
  */
 SchemaString.prototype.hexacolor = function hexacolor(options, message) {
   if (this.hexacolorValidator) {
-    this.validators = this.validators.filter(function (v) {
+    this.validators = this.validators.filter(function filter(v) {
       return v.validator !== this.hexacolorValidator;
     }, this);
   }
 
   if (options !== null && options !== undefined) {
     const msg =
-      (options.message || message || MongooseError.messages.String.hexacolor);
+      options.message || message || MongooseError.messages.String.hexacolor;
     this.validators.push({
-      validator: this.hexacolorValidator = function (v) {
+      validator: (this.hexacolorValidator = function hexacolorValidator(v) {
         return validator.isHexColor(String(v));
-      },
+      }),
       message: msg,
-      type: 'hexacolor'
+      type: 'hexacolor',
     });
   }
 
   return this;
-
 };

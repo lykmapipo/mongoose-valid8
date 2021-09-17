@@ -1,21 +1,16 @@
-'use strict';
+import validator from 'validator';
+import mongoose from 'mongoose';
 
-
-/* dependencies */
-const validator = require('validator');
-const mongoose = require('mongoose');
 const MongooseError = mongoose.Error;
 const SchemaNumber = mongoose.Schema.Types.Number;
 
-
 /* custom validations error message */
 MongooseError.messages.Number.numeric =
-  ('`{VALUE}` is not a valid numeric value for path `{PATH}`.');
+  '`{VALUE}` is not a valid numeric value for path `{PATH}`.';
 MongooseError.messages.Number.integer =
-  ('`{VALUE}` is not a valid integer value for path `{PATH}`.');
+  '`{VALUE}` is not a valid integer value for path `{PATH}`.';
 MongooseError.messages.Number.float =
-  ('`{VALUE}` is not a valid float value for path `{PATH}`.');
-
+  '`{VALUE}` is not a valid float value for path `{PATH}`.';
 
 /**
  * Sets numeric validator.
@@ -31,37 +26,34 @@ MongooseError.messages.Number.float =
  *       m.save() // success
  *     })
  *
- * @param {Boolean|Object} options numeric validation options
- * @param {String} [message] optional custom error message
- * @return {SchemaType} this
+ * @param {boolean | object} options numeric validation options
+ * @param {string} [message] optional custom error message
+ * @returns {object} valid mongoose validator
  * @see Customized Error Messages #error_messages_MongooseError-messages
- * @api public
+ * @public
  */
 
 SchemaNumber.prototype.numeric = function numeric(options, message) {
-
   if (this.numericValidator) {
-    this.validators = this.validators.filter(function (v) {
+    this.validators = this.validators.filter(function filter(v) {
       return v.validator !== this.numericValidator;
     }, this);
   }
 
   if (options !== null && options !== undefined) {
     const msg =
-      (options.message || message || MongooseError.messages.Number.numeric);
+      options.message || message || MongooseError.messages.Number.numeric;
     this.validators.push({
-      validator: this.numericValidator = function (v) {
+      validator: (this.numericValidator = function numericValidator(v) {
         return validator.isNumeric(String(v));
-      },
+      }),
       message: msg,
-      type: 'numeric'
+      type: 'numeric',
     });
   }
 
   return this;
-
 };
-
 
 /**
  * Sets integer validator.
@@ -77,37 +69,34 @@ SchemaNumber.prototype.numeric = function numeric(options, message) {
  *       m.save() // success
  *     })
  *
- * @param {Boolean|Object} options integer validation options
- * @param {String} [message] optional custom error message
- * @return {SchemaType} this
+ * @param {boolean | object} options integer validation options
+ * @param {string} [message] optional custom error message
+ * @returns {object} valid mongoose validator
  * @see Customized Error Messages #error_messages_MongooseError-messages
- * @api public
+ * @public
  */
 
 SchemaNumber.prototype.integer = function integer(options, message) {
-
   if (this.integerValidator) {
-    this.validators = this.validators.filter(function (v) {
+    this.validators = this.validators.filter(function filter(v) {
       return v.validator !== this.integerValidator;
     }, this);
   }
 
   if (options !== null && options !== undefined) {
     const msg =
-      (options.message || message || MongooseError.messages.Number.integer);
+      options.message || message || MongooseError.messages.Number.integer;
     this.validators.push({
-      validator: this.integerValidator = function (v) {
+      validator: (this.integerValidator = function integerValidator(v) {
         return validator.isInt(String(v));
-      },
+      }),
       message: msg,
-      type: 'integer'
+      type: 'integer',
     });
   }
 
   return this;
-
 };
-
 
 /**
  * Sets float validator.
@@ -123,33 +112,31 @@ SchemaNumber.prototype.integer = function integer(options, message) {
  *       m.save() // success
  *     })
  *
- * @param {Boolean|Object} options float validation options
- * @param {String} [message] optional custom error message
- * @return {SchemaType} this
+ * @param {boolean | object} options float validation options
+ * @param {string} [message] optional custom error message
+ * @returns {object} valid mongoose validator
  * @see Customized Error Messages #error_messages_MongooseError-messages
- * @api public
+ * @public
  */
 
 SchemaNumber.prototype.float = function float(options, message) {
-
   if (this.floatValidator) {
-    this.validators = this.validators.filter(function (v) {
+    this.validators = this.validators.filter(function filter(v) {
       return v.validator !== this.floatValidator;
     }, this);
   }
 
   if (options !== null && options !== undefined) {
     const msg =
-      (options.message || message || MongooseError.messages.Number.float);
+      options.message || message || MongooseError.messages.Number.float;
     this.validators.push({
-      validator: this.floatValidator = function (v) {
+      validator: (this.floatValidator = function floatValidator(v) {
         return validator.isFloat(String(v));
-      },
+      }),
       message: msg,
-      type: 'float'
+      type: 'float',
     });
   }
 
   return this;
-
 };

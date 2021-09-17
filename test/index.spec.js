@@ -1,43 +1,35 @@
-'use strict';
+import { expect, faker } from '@lykmapipo/test-helpers';
+import mongoose from 'mongoose';
+import '../src';
 
+const { Schema } = mongoose;
 
-/* dependencies */
-const faker = require('faker');
-const path = require('path');
-const { expect } = require('chai');
-const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
-require(path.join(__dirname, '..', 'index'));
-
-/* .env */
+// .env
 process.env.DEFAULT_COUNTRY_CODES = 'TZ,US';
 
+// TODO refactor per schema type
 
-/* TODO refactor per schema type */
-
-/* test runner */
-function test(options) {
-
-  //prepare testing schema
+// test runner
+const test = (options = {}) => {
+  // prepare testing schema
   const fields = {
     content: {
-      type: options.type || String
-    }
+      type: options.type || String,
+    },
   };
 
   fields.content[options.validator] =
-    (options.args !== null && options.args !== undefined ? options.args : true);
+    options.args !== null && options.args !== undefined ? options.args : true;
 
   const modelName = faker.date.past().getTime().toString();
   const UserSchema = new Schema(fields);
   const User = mongoose.model(modelName, UserSchema);
 
-
-  //test for valid input
+  // test for valid input
   if (options.valid) {
-    options.valid.forEach(function (valid) {
+    options.valid.forEach(function eachValid(valid) {
       const user = new User({ content: valid });
-      user.validate(function (error) {
+      user.validate(function doValidate(error) {
         expect(error).to.not.exist;
         if (options.assert) {
           options.assert(user.content);
@@ -46,18 +38,19 @@ function test(options) {
     });
   }
 
-  //test for invalid input
+  // test for invalid input
   if (options.invalid) {
-    options.invalid.forEach(function (invalid) {
+    options.invalid.forEach(function eachInvalid(invalid) {
       const user = new User({ content: invalid });
-      user.validate(function (error) {
+      user.validate(function doValidate(error) {
         expect(error).to.exist;
         expect(error.errors).to.exist;
         expect(error.errors.content).to.exist;
         expect(error.errors.content.kind).to.exist;
         expect(error.errors.content.value).to.exist;
-        expect([options.type.name, options.validator])
-          .to.be.include(error.errors.content.kind);
+        expect([options.type.name, options.validator]).to.be.include(
+          error.errors.content.kind
+        );
         expect(error.errors.content.value).to.be.eql(invalid);
         if (options.assert) {
           options.assert(user.content);
@@ -65,12 +58,11 @@ function test(options) {
       });
     });
   }
-}
-
+};
 
 describe('String Validators', () => {
-  /*jshint camelcase:false*/
-  /*jshint -W100 */
+  /* jshint camelcase:false */
+  /* jshint -W100 */
 
   it('should validate email addresses', () => {
     test({
@@ -84,7 +76,7 @@ describe('String Validators', () => {
         'hans.m端ller@test.com',
         'hans@m端ller.com',
         'test|123@m端ller.com',
-        'test123+ext@gmail.com'
+        'test123+ext@gmail.com',
       ],
       invalid: [
         'invalidemail@',
@@ -93,8 +85,8 @@ describe('String Validators', () => {
         'foo@bar.com.',
         'somename@ｇｍａｉｌ.com',
         'foo@bar.co.uk.',
-        'z@co.c'
-      ]
+        'z@co.c',
+      ],
     });
   });
 
@@ -102,13 +94,10 @@ describe('String Validators', () => {
     test({
       type: String,
       validator: 'capitalize',
-      valid: [
-        'fred',
-        'freD',
-      ],
-      assert: function (val) {
+      valid: ['fred', 'freD'],
+      assert(val) {
         expect(val).to.be.eql('Fred');
-      }
+      },
     });
   });
 
@@ -116,14 +105,10 @@ describe('String Validators', () => {
     test({
       type: String,
       validator: 'startcase',
-      valid: [
-        'fred Fuga',
-        'freD FuGa',
-        'freD---FuGa'
-      ],
-      assert: function (val) {
+      valid: ['fred Fuga', 'freD FuGa', 'freD---FuGa'],
+      assert(val) {
         expect(val).to.be.eql('Fred Fuga');
-      }
+      },
     });
   });
 
@@ -143,7 +128,7 @@ describe('String Validators', () => {
         '01:02:03:04::ab',
         '1:2:3:4:5:6',
         'AB:CD:EF:GH:01:02',
-      ]
+      ],
     });
   });
 
@@ -191,7 +176,7 @@ describe('String Validators', () => {
         '2001:db8:0000:1:1:1:1::1',
         '0:0:0:0:0:0:ffff:127.0.0.1',
         '0:0:0:0:ffff:127.0.0.1',
-      ]
+      ],
     });
   });
 
@@ -223,20 +208,8 @@ describe('String Validators', () => {
     test({
       type: String,
       validator: 'alpha',
-      valid: [
-        'abc',
-        'ABC',
-        'FoObar',
-      ],
-      invalid: [
-        'abc1',
-        '  foo  ',
-        '',
-        'ÄBC',
-        'FÜübar',
-        'Jön',
-        'Heiß',
-      ],
+      valid: ['abc', 'ABC', 'FoObar'],
+      invalid: ['abc1', '  foo  ', '', 'ÄBC', 'FÜübar', 'Jön', 'Heiß'],
     });
   });
 
@@ -244,17 +217,8 @@ describe('String Validators', () => {
     test({
       type: String,
       validator: 'alphanumeric',
-      valid: [
-        'abc123',
-        'ABC11',
-      ],
-      invalid: [
-        'abc ',
-        'foo!!',
-        'ÄBC',
-        'FÜübar',
-        'Jön',
-      ],
+      valid: ['abc123', 'ABC11'],
+      invalid: ['abc ', 'foo!!', 'ÄBC', 'FÜübar', 'Jön'],
     });
   });
 
@@ -352,12 +316,12 @@ describe('String Validators', () => {
         'Vml2YW11cyBmZXJtZW50dW0gc2VtcGVyIHBvcnRhLg==',
         'U3VzcGVuZGlzc2UgbGVjdHVzIGxlbw==',
         'MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAuMPNS1Ufof9EW/M98FNw' +
-        'UAKrwflsqVxaxQjBQnHQmiI7Vac40t8x7pIb8gLGV6wL7sBTJiPovJ0V7y7oc0Ye' +
-        'rhKh0Rm4skP2z/jHwwZICgGzBvA0rH8xlhUiTvcwDCJ0kc+fh35hNt8srZQM4619' +
-        'FTgB66Xmp4EtVyhpQV+t02g6NzK72oZI0vnAvqhpkxLeLiMCyrI416wHm5Tkukhx' +
-        'QmcL2a6hNOyu0ixX/x2kSFXApEnVrJ+/IxGyfyw8kf4N2IZpW5nEP847lpfj0SZZ' +
-        'Fwrd1mnfnDbYohX2zRptLy2ZUn06Qo9pkG5ntvFEPo9bfZeULtjYzIl6K8gJ2uGZ' +
-        'HQIDAQAB',
+          'UAKrwflsqVxaxQjBQnHQmiI7Vac40t8x7pIb8gLGV6wL7sBTJiPovJ0V7y7oc0Ye' +
+          'rhKh0Rm4skP2z/jHwwZICgGzBvA0rH8xlhUiTvcwDCJ0kc+fh35hNt8srZQM4619' +
+          'FTgB66Xmp4EtVyhpQV+t02g6NzK72oZI0vnAvqhpkxLeLiMCyrI416wHm5Tkukhx' +
+          'QmcL2a6hNOyu0ixX/x2kSFXApEnVrJ+/IxGyfyw8kf4N2IZpW5nEP847lpfj0SZZ' +
+          'Fwrd1mnfnDbYohX2zRptLy2ZUn06Qo9pkG5ntvFEPo9bfZeULtjYzIl6K8gJ2uGZ' +
+          'HQIDAQAB',
       ],
       invalid: [
         '12345',
@@ -408,12 +372,9 @@ describe('String Validators', () => {
         '255714080898',
         '+255714080898',
         '022 211 1174',
-        '0800110064'
+        '0800110064',
       ],
-      invalid: [
-        '',
-        '123'
-      ]
+      invalid: ['', '123'],
     });
   });
 
@@ -429,12 +390,9 @@ describe('String Validators', () => {
         '255714080898',
         '+255714080898',
         '022 211 1174',
-        '0800110064'
+        '0800110064',
       ],
-      invalid: [
-        '',
-        '123'
-      ]
+      invalid: ['', '123'],
     });
   });
 
@@ -443,14 +401,10 @@ describe('String Validators', () => {
       type: String,
       validator: 'phone',
       args: { countries: ['TZ'], e164: true },
-      valid: [
-        '0714080898',
-        '255714080898',
-        '+255714080898'
-      ],
-      assert: function (val) {
+      valid: ['0714080898', '255714080898', '+255714080898'],
+      assert(val) {
         expect(val).to.be.equal('255714080898');
-      }
+      },
     });
   });
 
@@ -466,12 +420,9 @@ describe('String Validators', () => {
         '255714080898',
         '+255714080898',
         '022 211 1174',
-        '0800110064'
+        '0800110064',
       ],
-      invalid: [
-        '',
-        '123'
-      ],
+      invalid: ['', '123'],
     });
   });
 
@@ -480,19 +431,8 @@ describe('String Validators', () => {
       type: String,
       validator: 'phone',
       args: { mobile: true },
-      valid: [
-        '+971502674453',
-        '0714080898',
-        '255714080898',
-        '+255714080898',
-      ],
-      invalid: [
-        '',
-        '123',
-        '022 211 1174',
-        '800-621-3362',
-        '0800110064'
-      ],
+      valid: ['+971502674453', '0714080898', '255714080898', '+255714080898'],
+      invalid: ['', '123', '022 211 1174', '800-621-3362', '0800110064'],
     });
   });
 
@@ -501,18 +441,8 @@ describe('String Validators', () => {
       type: String,
       validator: 'phone',
       args: { fixedline: true },
-      valid: [
-        '800-621-3362',
-        '022 211 1174',
-        '0800110064'
-      ],
-      invalid: [
-        '',
-        '123',
-        '+971585215778',
-        '+255714080898',
-        '0714080898'
-      ],
+      valid: ['800-621-3362', '022 211 1174', '0800110064'],
+      invalid: ['', '123', '+971585215778', '+255714080898', '0714080898'],
     });
   });
 
@@ -605,12 +535,12 @@ describe('String Validators', () => {
         'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb3JlbSI6Imlwc3VtIn0.ymiJSsMJXR6tMSr8G9usjQ15_8hKPDv_CArLhxw28MI',
         'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkb2xvciI6InNpdCIsImFtZXQiOlsibG9yZW0iLCJpcHN1bSJdfQ.rRpe04zbWbbJjwM43VnHzAboDzszJtGrNsUxaqQ-GQ8',
         'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqb2huIjp7ImFnZSI6MjUsImhlaWdodCI6MTg1fSwiamFrZSI6eyJhZ2UiOjMwLCJoZWlnaHQiOjI3MH19.YRLPARDmhGMC3BBk_OhtwwK21PIkVCqQe8ncIRPKo-E',
-        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ' // No signature
+        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ', // No signature
       ],
       invalid: [
         'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9',
         '$Zs.ewu.su84',
-        'ks64$S/9.dy$§kz.3sd73b'
+        'ks64$S/9.dy$§kz.3sd73b',
       ],
     });
   });
@@ -619,17 +549,8 @@ describe('String Validators', () => {
     test({
       type: String,
       validator: 'hexadecimal',
-      valid: [
-        'deadBEEF',
-        'ff0044',
-        '0xff0044',
-        '0XfF0044',
-      ],
-      invalid: [
-        'abcdefg',
-        '',
-        '..',
-      ],
+      valid: ['deadBEEF', 'ff0044', '0xff0044', '0XfF0044'],
+      invalid: ['abcdefg', '', '..'],
     });
   });
 
@@ -637,41 +558,21 @@ describe('String Validators', () => {
     test({
       type: String,
       validator: 'hexacolor',
-      valid: [
-        '#ff0034',
-        '#CCCCCC',
-        'fff',
-        '#f00',
-      ],
-      invalid: [
-        '#ff',
-        'fff0a',
-        '#ff12FG',
-      ],
+      valid: ['#ff0034', '#CCCCCC', 'fff', '#f00'],
+      invalid: ['#ff', 'fff0a', '#ff12FG'],
     });
   });
-
 });
 
-
 describe('Number Validators', () => {
-  /*jshint camelcase:false*/
-  /*jshint -W100 */
+  /* jshint camelcase:false */
+  /* jshint -W100 */
 
   it('should validate numeric value', () => {
     test({
       type: Number,
       validator: 'numeric',
-      valid: [
-        123,
-        '123',
-        '00123',
-        '0',
-        '123.123',
-        '+123',
-        '-0',
-        '-00123',
-      ],
+      valid: [123, '123', '00123', '0', '123.123', '+123', '-0', '-00123'],
       invalid: [],
     });
   });
@@ -680,20 +581,8 @@ describe('Number Validators', () => {
     test({
       type: Number,
       validator: 'integer',
-      valid: [
-        '13',
-        '123',
-        '0',
-        '123',
-        '-0',
-        '+1',
-        '01',
-        '-01',
-        '000',
-      ],
-      invalid: [
-        123.123,
-      ],
+      valid: ['13', '123', '0', '123', '-0', '+1', '01', '-01', '000'],
+      invalid: [123.123],
     });
   });
 
@@ -715,44 +604,31 @@ describe('Number Validators', () => {
         '01.123',
         '-0.22250738585072011e-307',
       ],
-      invalid: [
-        '+',
-        '-',
-        '.',
-        'foo',
-      ],
+      invalid: ['+', '-', '.', 'foo'],
     });
   });
 });
 
-
 describe('Array Validators', () => {
-  /*jshint camelcase:false*/
-  /*jshint -W100 */
+  /* jshint camelcase:false */
+  /* jshint -W100 */
 
   it('should validate empty array', () => {
     test({
       type: [String],
       validator: 'empty',
       args: false,
-      valid: [
-        ['foo@bar.com']
-      ],
-      invalid: [
-        []
-      ]
+      valid: [['foo@bar.com']],
+      invalid: [[]],
     });
   });
-
 
   it('should validate empty array', () => {
     test({
       type: [String],
       validator: 'empty',
       args: true,
-      valid: [
-        []
-      ]
+      valid: [[]],
     });
   });
 
@@ -760,12 +636,10 @@ describe('Array Validators', () => {
     test({
       type: [String],
       validator: 'compact',
-      valid: [
-        ['a', '', undefined, null, 'b']
-      ],
-      assert: function (val) {
+      valid: [['a', '', undefined, null, 'b']],
+      assert(val) {
         expect(val).to.be.eql(['a', 'b']);
-      }
+      },
     });
   });
 
@@ -774,12 +648,10 @@ describe('Array Validators', () => {
     test({
       type: [Schema.Types.ObjectId],
       validator: 'compact',
-      valid: [
-        [oid, '', undefined, null]
-      ],
-      assert: function (val) {
+      valid: [[oid, '', undefined, null]],
+      assert(val) {
         expect(val).to.be.eql([oid]);
-      }
+      },
     });
   });
 
@@ -788,12 +660,10 @@ describe('Array Validators', () => {
       type: [String],
       validator: 'duplicate',
       args: false,
-      valid: [
-        ['a', 'a', undefined, null, 'b', 'b']
-      ],
-      assert: function (val) {
+      valid: [['a', 'a', undefined, null, 'b', 'b']],
+      assert(val) {
         expect(val).to.be.eql(['a', 'b']);
-      }
+      },
     });
   });
 
@@ -804,41 +674,33 @@ describe('Array Validators', () => {
       type: [Schema.Types.ObjectId],
       validator: 'duplicate',
       args: false,
-      valid: [
-        [oid1, undefined, null, oid1, oid2, oid2]
-      ],
-      assert: function (val) {
+      valid: [[oid1, undefined, null, oid1, oid2, oid2]],
+      assert(val) {
         expect(val).to.be.eql([oid1, oid2]);
-      }
+      },
     });
   });
-
 
   it('should remove duplicates on array by comparator', () => {
     test({
       type: [String],
       validator: 'duplicate',
       args: (a, b) => a === b,
-      valid: [
-        ['a', 'a', undefined, null, 'b', 'b']
-      ],
-      assert: function (val) {
+      valid: [['a', 'a', undefined, null, 'b', 'b']],
+      assert(val) {
         expect(val).to.be.eql(['a', 'b']);
-      }
+      },
     });
   });
-
 
   it('should sort primitive array', () => {
     test({
       type: [String],
       validator: 'sort',
-      valid: [
-        ['c', 'a', undefined, null, 'b', 'b']
-      ],
-      assert: function (val) {
+      valid: [['c', 'a', undefined, null, 'b', 'b']],
+      assert(val) {
         expect(val).to.be.eql(['a', 'b', 'c']);
-      }
+      },
     });
   });
 
@@ -847,12 +709,10 @@ describe('Array Validators', () => {
       type: [String],
       validator: 'sort',
       args: 'desc',
-      valid: [
-        ['c', 'a', undefined, null, 'b', 'b']
-      ],
-      assert: function (val) {
+      valid: [['c', 'a', undefined, null, 'b', 'b']],
+      assert(val) {
         expect(val).to.be.eql(['c', 'b', 'a']);
-      }
+      },
     });
   });
 
@@ -861,12 +721,10 @@ describe('Array Validators', () => {
       type: [String],
       validator: 'sort',
       args: 'asc',
-      valid: [
-        ['c', 'a', undefined, null, 'b', 'b']
-      ],
-      assert: function (val) {
+      valid: [['c', 'a', undefined, null, 'b', 'b']],
+      assert(val) {
         expect(val).to.be.eql(['a', 'b', 'c']);
-      }
+      },
     });
   });
 
@@ -876,12 +734,10 @@ describe('Array Validators', () => {
     test({
       type: [Schema.Types.ObjectId],
       validator: 'sort',
-      valid: [
-        [oid2, undefined, null, oid1, oid2, oid1]
-      ],
-      assert: function (val) {
+      valid: [[oid2, undefined, null, oid1, oid2, oid1]],
+      assert(val) {
         expect(val).to.be.eql([oid1, oid2]);
-      }
+      },
     });
   });
 
@@ -892,13 +748,10 @@ describe('Array Validators', () => {
       type: [Schema.Types.ObjectId],
       validator: 'sort',
       args: 'desc',
-      valid: [
-        [oid2, undefined, null, oid1, oid2, oid1]
-      ],
-      assert: function (val) {
+      valid: [[oid2, undefined, null, oid1, oid2, oid1]],
+      assert(val) {
         expect(val).to.be.eql([oid2, oid1]);
-      }
+      },
     });
   });
-
 });

@@ -3,7 +3,7 @@
 [![Build Status](https://app.travis-ci.com/lykmapipo/mongoose-valid8.svg?branch=master)](https://app.travis-ci.com/lykmapipo/mongoose-valid8)
 [![Dependencies Status](https://david-dm.org/lykmapipo/mongoose-valid8.svg)](https://david-dm.org/lykmapipo/mongoose-valid8)
 [![Coverage Status](https://coveralls.io/repos/github/lykmapipo/mongoose-valid8/badge.svg?branch=master)](https://coveralls.io/github/lykmapipo/mongoose-valid8?branch=master)
-[![GitHub License](https://img.shields.io/github/license/lykmapipo/mongoose-valid8)](https://github.com/lykmapipo/mongoose-valid8/blob/develop/LICENSE)
+[![GitHub License](https://img.shields.io/github/license/lykmapipo/mongoose-valid8)](https://github.com/lykmapipo/mongoose-valid8/blob/master/LICENSE)
 
 [![Commitizen Friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
 [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg)](https://github.com/prettier/prettier)

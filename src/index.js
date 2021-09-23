@@ -1,4 +1,7 @@
-/* extend string schema type with custom validations */
+import mongoose from 'mongoose';
+
 import './validators/string';
 import './validators/number';
 import './validators/array';
+
+export default mongoose;

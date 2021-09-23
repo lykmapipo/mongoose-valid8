@@ -1,4 +1,9 @@
-import _ from 'lodash';
+import {
+  compact,
+  capitalize as doCapitalize,
+  startCase,
+  toLower,
+} from 'lodash';
 import validator from 'validator';
 import { getString } from '@lykmapipo/env';
 import { parsePhoneNumber } from '@lykmapipo/phone';
@@ -610,7 +615,7 @@ SchemaString.prototype.capitalize = function capitalize(shouldApply) {
     return this;
   }
   return this.set(function setValue(v /* , self */) {
-    const value = _.capitalize(v);
+    const value = doCapitalize(v);
     return value;
   });
 };
@@ -634,7 +639,7 @@ SchemaString.prototype.startcase = function startcase(shouldApply) {
     return this;
   }
   return this.set(function setValue(v /* , self */) {
-    const value = _.startCase(_.toLower(v));
+    const value = startCase(toLower(v));
     return value;
   });
 };
@@ -672,7 +677,7 @@ SchemaString.prototype.phone = function phone(options, message) {
   if (options !== null && options !== undefined) {
     // collect validator options
     const { mobile, fixedline, e164 } = options;
-    const countries = _.compact(
+    const countries = compact(
       [getString('DEFAULT_COUNTRY_CODE')].concat(options.countries)
     );
     let msg = message || MongooseError.messages.String.phone;

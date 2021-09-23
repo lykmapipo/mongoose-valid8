@@ -1,6 +1,5 @@
 import { expect, faker } from '@lykmapipo/test-helpers';
-import mongoose from 'mongoose';
-import '../src';
+import mongoose from '../src';
 
 const { Schema } = mongoose;
 

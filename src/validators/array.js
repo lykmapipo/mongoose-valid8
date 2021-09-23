@@ -1,4 +1,12 @@
-import _ from 'lodash';
+import {
+  compact as doCompact,
+  isEmpty,
+  isFunction,
+  isString,
+  orderBy,
+  uniqWith,
+  uniq,
+} from 'lodash';
 import mongoose from 'mongoose';
 
 const MongooseError = mongoose.Error;
@@ -42,7 +50,7 @@ SchemaArray.prototype.empty = function empty(options, message) {
     const shouldAllowEmpty = options;
     this.validators.push({
       validator: (this.emptyValidator = function emptyValidator(v) {
-        return shouldAllowEmpty ? true : !_.isEmpty(v);
+        return shouldAllowEmpty ? true : !isEmpty(v);
       }),
       message: msg,
       type: 'empty',
@@ -74,7 +82,7 @@ SchemaArray.prototype.compact = function compact(shouldApply) {
   }
   return this.set(function setValue(v /* , self */) {
     let value = [].concat(v);
-    value = _.compact(value);
+    value = doCompact(value);
     return value;
   });
 };
@@ -95,15 +103,15 @@ SchemaArray.prototype.compact = function compact(shouldApply) {
  */
 
 SchemaArray.prototype.duplicate = function duplicate(shouldApply) {
-  if (arguments.length > 0 && shouldApply && !_.isFunction(shouldApply)) {
+  if (arguments.length > 0 && shouldApply && !isFunction(shouldApply)) {
     return this;
   }
   return this.set(function setValue(v /* , self */) {
     let value = [].concat(v);
-    value = _.compact(value);
-    value = _.isFunction(shouldApply)
-      ? _.uniqWith(value, shouldApply)
-      : _.uniq(value);
+    value = doCompact(value);
+    value = isFunction(shouldApply)
+      ? uniqWith(value, shouldApply)
+      : uniq(value);
     return value;
   });
 };
@@ -130,18 +138,16 @@ SchemaArray.prototype.sort = function sort(shouldApply) {
   return this.set(function setValue(v, self = {}, schema = {}) {
     // prepare value
     let value = [].concat(v);
-    value = _.compact(value);
+    value = doCompact(value);
 
     // ensure unique sortable
     const comparator = (schema.options || self.options || {}).sort;
-    value = _.isFunction(comparator)
-      ? _.uniqWith(value, comparator)
-      : _.uniq(value);
+    value = isFunction(comparator) ? uniqWith(value, comparator) : uniq(value);
 
     // sort value
-    value = _.isString(shouldApply)
-      ? _.orderBy(value, null, shouldApply)
-      : _.orderBy(value);
+    value = isString(shouldApply)
+      ? orderBy(value, null, shouldApply)
+      : orderBy(value);
     return value;
   });
 };

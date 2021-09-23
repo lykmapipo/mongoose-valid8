@@ -1,3 +1,21 @@
+#### 1.7.1 (2021-09-23)
+
+##### Chores
+
+* **release:**
+  *  compile latest source ([3f0b93a2](https://github.com/lykmapipo/mongoose-valid8/commit/3f0b93a23cd5ec0bab3e0b957e6efd532403d64b))
+  *  compile latest source & release notes ([c04f648e](https://github.com/lykmapipo/mongoose-valid8/commit/c04f648eed5c0d2438f180bd4ffa94887bc3718f))
+* **deps:**  force latest version & audit fix ([73f1abbe](https://github.com/lykmapipo/mongoose-valid8/commit/73f1abbe6dfe4aa90ee2fd36eae7922940523cf7))
+
+##### Documentation Changes
+
+* **readme:**  update status badges ([6e6cb0a8](https://github.com/lykmapipo/mongoose-valid8/commit/6e6cb0a81b8dbfec1d2cf5c61f04b133a8d3553e))
+
+##### Refactors
+
+*  export default and used named imports ([37e424a2](https://github.com/lykmapipo/mongoose-valid8/commit/37e424a24b992d9d1019fe0a6dd314ce08241675))
+*  migrate to es6 ([963754a1](https://github.com/lykmapipo/mongoose-valid8/commit/963754a128741e9dc69d549e660843e6a6f51265))
+
 #### 1.7.0 (2020-12-29)
 
 ##### Bug Fixes

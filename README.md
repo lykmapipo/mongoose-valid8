@@ -17,7 +17,7 @@ Additional mongoose schema validations.
 - [NodeJS v13+](https://nodejs.org)
 - [Npm v6.12+](https://www.npmjs.com/)
 - [MongoDB v4+](https://www.mongodb.com/)
-- [Mongoose v5.7+](https://github.com/Automattic/mongoose)
+- [Mongoose v6+](https://github.com/Automattic/mongoose)
 
 ## Installation
 
